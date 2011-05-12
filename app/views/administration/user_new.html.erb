@@ -1,0 +1,15 @@
+<% title "Add user" %>
+
+<%= semantic_form_for @user, :url => administration_user_create_path do |f| %>
+  <%= f.inputs do %>
+  	<%= f.input :username %>
+  	<%= f.input :email %>
+  	<%= f.input :company %>
+  	<%= f.input :role, :as => :select, :collection => User::ROLES %>
+  	<%= f.input :password %>
+  	<%= f.input :password_confirmation %>
+  <% end %>
+  <%= f.buttons do %>
+    <%= f.commit_button "Add User" %>
+  <% end %>
+<% end %>

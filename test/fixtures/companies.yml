@@ -1,0 +1,11 @@
+one:
+  name: MyString
+  country: MyString
+  address: MyText
+  slug: MyString
+
+two:
+  name: MyString
+  country: MyString
+  address: MyText
+  slug: MyString

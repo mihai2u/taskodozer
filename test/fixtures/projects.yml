@@ -1,0 +1,11 @@
+one:
+  name: MyString
+  slug: MyString
+  description: MyText
+  company_id: 1
+
+two:
+  name: MyString
+  slug: MyString
+  description: MyText
+  company_id: 1

@@ -1,0 +1,33 @@
+<% title "Manage People" %>
+
+<p><%= link_to "New Company", new_company_path %></p>
+
+<table class="users">
+<% @companies.each do |company| %>
+<h4><%= company.name %> (<%= link_to "Edit", edit_company_path(company) %> | <%= link_to "Add user", administration_user_new_path(company) %>)</h4>
+	<% if company.users.blank? %>
+		<p>No users <% if company.projects.blank? %>- <%= link_to "Delete company", company, :confirm => 'Are you sure?', :method => :delete %><% end %></p>
+	<% else %>
+		<table class="index">
+		<thead>
+			<tr>
+				<th>Username</th>
+				<th>Email</th>
+				<th>Role</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+		<% company.users.each do |user| %>
+			<tr>
+				<td><%= user.username %></td>
+				<td><%= user.email %></td>
+				<td><%= user.role %></td>
+				<td><%= link_to "Edit", administration_user_edit_path(user) %></td>
+			</tr>
+		<% end %>
+		</tbody>
+		</table>
+	<% end %>
+<% end %>
+</table>

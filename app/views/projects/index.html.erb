@@ -1,0 +1,56 @@
+<% if @filter.blank?
+     title "My active projects"
+   else
+     title "Projects / #{@filter}" 
+   end %>
+
+<% content_for :sidebar do %>
+  <h2>Filter Projects</h2>
+  
+  <ul>
+    <li><%= link_to "My Active Projects", projects_path %></li>
+    <li><%= link_to "All", project_filter_path("all") %></li>
+    <li><%= link_to "Inquiry", project_filter_path("inquiry") %></li>
+    <li><%= link_to "Upcoming", project_filter_path("upcoming") %></li>
+    <li><%= link_to "Current", project_filter_path("current") %></li>
+    <li><%= link_to "On Hold", project_filter_path("on_hold") %></li>
+    <li><%= link_to "In Review", project_filter_path("review") %></li>
+    <li><%= link_to "Archived", project_filter_path("archived") %></li>
+  </ul>
+
+<% end %>
+
+<% @companies.each do |company| %>
+  <h4><%= company.name %></h4>
+  <table class="index">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Started</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% for project in company.projects & @projects do %>
+      <tr class="<%= project.status %>">
+        <td><%= link_to project.name, project %></td>
+        <td><%= project.status.capitalize %></td>
+        <td><%= project.created_at.to_s(:short_date) %></td>
+        <td>
+          <%= link_to "Edit", edit_project_path(project) %>
+          <% if project.archived == 0 %>
+            <%= link_to "Archive", project_archive_path(project), :confirm => 'Are you sure you want to archive the project?', :method => :post %>
+          <% else %>
+            <%= link_to "Reactivate", project_reactivate_path(project), :method => :post %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+    </table>
+<% end %>
+
+<% if can? :create, Project %>
+<p><%= link_to "New Project", new_project_path %></p>
+<% end %>

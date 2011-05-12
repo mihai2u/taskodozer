@@ -1,0 +1,9 @@
+<% title "Management Dashboard" %>
+
+<% content_for :sidebar do -%>
+<h2>Manage</h2>
+<ul>
+	<li><%= link_to "People", administration_users_path %></li>
+	<li><%= link_to "Projects", projects_path %></li>
+</ul>
+<% end -%>

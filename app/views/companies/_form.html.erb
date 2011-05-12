@@ -1,0 +1,11 @@
+<%= semantic_form_for @company do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :name, :label => "Company Name" %>
+    <%= f.input :slug %>
+    <%= f.input :country %>
+    <%= f.input :address %>
+  <% end %>
+  <%= f.buttons do %>
+    <%= f.commit_button %>
+  <% end %>
+<% end %>
