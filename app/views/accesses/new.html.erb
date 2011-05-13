@@ -1,0 +1,14 @@
+<% title "New Access" %>
+
+<p>Testam cu 2 set-uri de checkboxuri</p>
+<%= semantic_form_for @access do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :project %>
+    <%= f.input :user, :as => :check_boxes, :collection => @clients, :label => "Stake holders:" %>
+    <%= f.input :user, :as => :check_boxes, :collection => @managers, :label => "Managers:" %>
+    <%= f.input :user, :as => :check_boxes, :collection => @developers, :label => "Developers:" %>
+  <% end %>
+  <%= f.buttons do %>
+    <%= f.commit_button %>
+  <% end %>
+<% end %>

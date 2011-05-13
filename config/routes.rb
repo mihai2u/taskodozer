@@ -1,22 +1,39 @@
 Taskodozer::Application.routes.draw do
+
+  # base
+  root :to => "pages#home"
+  get "/about" => "pages#about", :as => "about"
+
+  # authenticatoin
+  devise_for :users
+
+  # projects
   resources :projects, :except => [:destroy]
   get "/projects/filter/:filter" => "projects#index", :as => "project_filter"
   match "/projects/:id/archive" => "projects#archive", :as => "project_archive", :via => :post
   match "/projects/:id/reactivate" => "projects#reactivate", :as => "project_reactivate", :via => :post
+  
+  # companies
   resources :companies, :except => [:index, :show]
 
+  # accesses
+  match "/projects/:project_id/accesses/new" => "accesses#new", :via => :get, :as => "new_access"
+  match "/accesses" => "accesses#create", :via => :post, :as => "accesses"
+  match "/accesses/:project_id" => "accesses#create_self", :via => :post, :as => "accesses_add_self"
+  match "/accesses" => "accesses#index", :via => :get, :as => "accesses"
+  match "/projects/:project_id/accesses/:user_id" => "accesses#destroy", :as => "access"
+  # match "/accesses/:id" => "accesses#destroy", :via => :delete, :as => "access"
+
+  # administrative
   get "administration/management"
-
-  devise_for :users
-
-  root :to => "pages#home"
-  get "/about" => "pages#about", :as => "about"
   get "/manage" => "administration#home", :as => "administration_home"
+  # administrative - users
   get "/manage/users" => "administration#users", :as => "administration_users"
   get "/manage/users/:id" => "administration#user_edit", :as => "administration_user_edit"
   get "/manage/companies/:id/add" => "administration#user_new", :as => "administration_user_new"
   match "manage/companies/add" => "administration#user_create", :as => "administration_user_create"
   match "/manage/users/:id" => "administration#user_update", :as => "administration_user_update"
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

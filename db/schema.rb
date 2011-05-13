@@ -10,7 +10,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110512204426) do
+ActiveRecord::Schema.define(:version => 20110513121900) do
+
+  create_table "accesses", :force => true do |t|
+    t.integer "user_id"
+    t.integer "project_id"
+  end
 
   create_table "companies", :force => true do |t|
     t.string   "name"

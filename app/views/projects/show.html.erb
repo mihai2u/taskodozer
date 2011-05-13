@@ -1,24 +1,50 @@
-<% title "Project" %>
+<% title @project.company.name + ": " + @project.name %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @project.name %>
+<% content_for :sidebar do -%>
+<h2>Manage</h2>
+<ul>
+  <% if can? :manage, Project %>
+    <li><%= link_to "Edit Project", edit_project_path(@project) %></li>
+  <% end %>
+  <li>
+  <% if @project.archived == 0 %>
+    <%= link_to "Archive", project_archive_path(@project), :confirm => 'Are you sure you want to archive the project?', :method => :post %>
+  <% else %>
+    <%= link_to "Reactivate", project_reactivate_path(@project), :method => :post %>
+  <% end %>
+  </li>
+</ul>
+<h2>People</h2>
+<p>Stake holders: 
+  <% @clients.each do |user| %>
+    <span class="user">
+      <%= user.username %>
+      <% if admin? || user == current_user %>
+        (<%= link_to "x", access_path(@project, user), :title => "Remove from project", :confirm => 'Are you sure you want to remove #{user.username} from #{@project.name}?', :method => :delete %>)
+      <% end %>
+    </span>
+  <% end %>
+<br />Developers: 
+  <% @developers.each do |user| %>
+    <span class="user">
+      <%= user.username %> 
+      <% if admin? || user == current_user %>
+        (<%= link_to "x", access_path(@project, user), :title => "Remove from project", :confirm => 'Are you sure you want to remove user from project space?', :method => :delete %>)
+      <% end %>
+    </span>
+  <% end %>
 </p>
-<p>
-  <strong>Slug:</strong>
-  <%= @project.slug %>
-</p>
-<p>
-  <strong>Description:</strong>
-  <%= @project.description %>
-</p>
-<p>
-  <strong>Company:</strong>
-  <%= @project.company_id %>
-</p>
+<ul>
+  <% unless @users.include?(current_user) %>
+    <li><%= link_to "Get involved", accesses_add_self_path(@project), :method => :post %></li>
+  <% end %>
+  <% if can? :create, Access %> 
+    <li><%= link_to "Add people", new_access_path(@project) %></li>
+  <% end %>
+</ul>
+<% end -%>
 
-<p>
-  <%= link_to "Edit", edit_project_path(@project) %> |
-  <%= link_to "Destroy", @project, :confirm => 'Are you sure?', :method => :delete %> |
-  <%= link_to "View All", projects_path %>
-</p>
+<h4>Description</h4>
+<div class="description">
+<%= @project.description %>
+</div>

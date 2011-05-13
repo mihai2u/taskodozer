@@ -1,5 +1,8 @@
 class Project < ActiveRecord::Base
   belongs_to :company
+  has_many :accesses
+  has_many :users, :through => :accesses, :uniq => true
+  
   attr_accessible :name, :slug, :description, :company_id, :status
 
   validates_presence_of :name, :company

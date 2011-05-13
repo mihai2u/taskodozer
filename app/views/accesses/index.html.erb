@@ -1,0 +1,18 @@
+<% title "Accesses" %>
+<ul>
+<table class="index">
+<tr>
+<th>ID</th>
+<th>User</th>
+<th>Project</th>
+<th>Actions</th>
+</tr>
+<% @accesses.each do |access| %>
+<tr>
+<td><%= access.id %></td>
+<td><%= access.user_id %>. <%= access.user.username %></td>
+<td><%= access.project_id %>. <%= access.project.name %></td>
+<td><%= link_to "Delete access", access_path(access.project, access.user), :confirm => 'Are you sure?', :method => :delete %></td>
+</tr>
+<% end %>
+</table>

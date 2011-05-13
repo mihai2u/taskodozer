@@ -1,7 +1,8 @@
 class ProjectsController < ApplicationController
 
   before_filter :authenticate_user!
-  before_filter :check_admin, :only => [:new, :create]
+  before_filter :check_admin, :only => [:new, :create, :edit, :update]
+  before_filter :check_access, :only => [:show]
 
   def archive
     @project = Project.find(params[:id])
@@ -19,35 +20,58 @@ class ProjectsController < ApplicationController
 
   def index
     @filter = params[:filter]
-
-    # if @filter.empty
-    #   @projects = Project.active.all
-    # else
-    #   if @filter == "all"
-    #     @projects = Project.@filter.all
-    #   else
-    # end
-
-    @projects = case @filter
-       when "all" then Project.all
-       when "archived" then Project.archived
-       when "inquiry" then Project.inquiry
-       when "upcoming" then Project.upcoming
-       when "current" then Project.current
-       when "on_hold" then Project.on_hold
-       when "review" then Project.review
-       else Project.active.all
+    if current_user.client?
+      @projects_nb_all      = current_user.company.projects.all.count
+      @projects_nb_archived = current_user.company.projects.archived.count
+      @projects_nb_inquiry  = current_user.company.projects.active.inquiry.count
+      @projects_nb_upcoming = current_user.company.projects.active.upcoming.count
+      @projects_nb_current  = current_user.company.projects.active.current.count
+      @projects_nb_on_hold  = current_user.company.projects.active.on_hold.count
+      @projects_nb_review   = current_user.company.projects.active.review.count
+      @projects_nb_active   = current_user.company.projects.active.count
+      @projects = case @filter
+        when "all" then current_user.company.projects.all
+        when "archived" then current_user.company.projects.archived
+        when "inquiry" then current_user.company.projects.active.inquiry
+        when "upcoming" then current_user.company.projects.active.upcoming
+        when "current" then current_user.company.projects.active.current
+        when "on_hold" then current_user.company.projects.active.on_hold
+        when "review" then current_user.company.projects.active.review
+      else current_user.company.projects.active
       end
-
-    @companies = Array.new
-    @projects.each do |project|
-      @companies << project.company
+    else
+      @projects_nb_all      = Project.all.count
+      @projects_nb_archived = Project.archived.count
+      @projects_nb_inquiry  = Project.active.inquiry.count
+      @projects_nb_upcoming = Project.active.upcoming.count
+      @projects_nb_current  = Project.active.current.count
+      @projects_nb_on_hold  = Project.active.on_hold.count
+      @projects_nb_review   = Project.active.review.count
+      @projects_nb_active   = current_user.projects.active.count
+      @projects = case @filter
+        when "all" then Project.all
+        when "archived" then Project.archived
+        when "inquiry" then Project.active.inquiry
+        when "upcoming" then Project.active.upcoming
+        when "current" then Project.active.current
+        when "on_hold" then Project.active.on_hold
+        when "review" then Project.active.review
+        else current_user.projects.active
+      end
     end
-    @companies.uniq!
+
+      @companies = Array.new
+      @projects.each do |project|
+        @companies << project.company
+      end
+      @companies.uniq!
   end
 
   def show
     @project = Project.find(params[:id])
+    @users = @project.users
+    @clients = @users.clients
+    @developers = @users.developers + @users.managers
   end
 
   def new
@@ -79,9 +103,15 @@ class ProjectsController < ApplicationController
 private
   def check_admin
     unless current_user.admin?
-      flash[:notice] = ("Only admins can create projects.")
+      flash[:notice] = ("You don't have permission to manage projects.")
       redirect_to root_path
       return false
+    end
+  end
+
+  def check_access
+    unless current_user.admin? || current_user.developer? || current_user.company == Project.find(params[:id]).company
+      redirect_to projects_path, :notice  => "You don't have access to that project space."
     end
   end
 
