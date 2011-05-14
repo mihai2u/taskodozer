@@ -1,6 +1,7 @@
 body {font-family: "Lucida Grande", verdana, arial, helvetica, sans-serif; color: #000; background-color: #d4d4d4; margin: 0; padding: 0; font-size: 0.8em; min-width: 900px}
 a:link, a:visited {color: #0054ff}
 a:hover {background-color: #0054ff; color: #fff}
+.meta p { margin-top: 0; }
 ul {padding-left: 2em; margin-left: 0}
 #header {background-color: #204ca0; margin: 0; padding: 0.5em 2.2em 0 3em}
 #header h1 {font-weight: normal; color: #fff}
@@ -60,6 +61,7 @@ webkit-box-shadow:5px 5px 5px #999;}
 #right a:hover, #right_kase a:hover {color: #fff; background-color: #666}
 #right label, #right_kase label {font-weight: bold}
 #right h2, #right_kase h2 {color: #204ca0; font-weight: normal; background-color: #d3dbff; padding: 0.7em 1em; margin: 0; font-size: 1.3em;border-bottom: 1px solid #5b72a5}
+#right h2 a { font-size: 0.76em; }
 #right h2.error, #right_kase h2 {color: #fff; font-weight: normal; background-image: -webkit-gradient(
     linear,
     left bottom,

@@ -1,0 +1,9 @@
+one:
+  discussion_id: 1
+  title: MyString
+  content: MyText
+
+two:
+  discussion_id: 1
+  title: MyString
+  content: MyText

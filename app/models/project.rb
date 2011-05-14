@@ -2,6 +2,8 @@ class Project < ActiveRecord::Base
   belongs_to :company
   has_many :accesses
   has_many :users, :through => :accesses, :uniq => true
+  has_many :discussions
+  has_many :topics, :through => :discussions
   
   attr_accessible :name, :slug, :description, :company_id, :status
 
@@ -19,6 +21,7 @@ class Project < ActiveRecord::Base
   named_scope :review, :conditions => { :status => "review" }
 
   before_validation :setup_project
+  after_save :setup_discussions
 
   STATUSES = %w[inquiry upcoming current on_hold review]
 
@@ -53,4 +56,7 @@ class Project < ActiveRecord::Base
   	end
   end
 
+  def setup_discussions
+    self.discussions.create(:title => "General")
+  end
 end

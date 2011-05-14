@@ -1,0 +1,15 @@
+<% title "Edit Topic" %>
+
+<%= semantic_form_for @topic, :url => project_topic_path(@project, @topic) do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :discussion, :collection => @discussions, :label => "Category" %>
+    <%= f.input :title, :label => "Topic title" %>
+    <%= f.input :content, :label => "Description" %>
+  <% end %>
+  <%= f.buttons %>
+<% end %>
+
+<p>
+  <%= link_to "Show", project_topic_path(@project,@topic) %> |
+  <%= link_to "View All", project_topics_path(@project) %>
+</p>

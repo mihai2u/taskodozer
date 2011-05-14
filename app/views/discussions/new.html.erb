@@ -1,0 +1,10 @@
+<% title "New Discussion" %>
+
+<%= semantic_form_for @discussion, :url => project_discussions_path(@project) do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :title, :label => "Discussion title" %>
+  <% end %>
+  <%= f.buttons %>
+<% end %>
+
+<p><%= link_to "Back to List", project_discussions_path(@project) %></p>

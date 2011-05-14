@@ -1,0 +1,21 @@
+<% title "Topics" %>
+
+<table>
+  <tr>
+    <th>Discussion</th>
+    <th>Title</th>
+    <th>Content</th>
+  </tr>
+  <% for topic in @topics %>
+    <tr>
+      <td><%= topic.discussion_id %></td>
+      <td><%= topic.title %></td>
+      <td><%= topic.content %></td>
+      <td><%= link_to "Show", project_topic_path(@project,topic) %></td>
+      <td><%= link_to "Edit", edit_project_topic_path(@project,topic) %></td>
+      <td><%= link_to "Destroy", project_topic_path(@project,topic), :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Topic", new_project_topic_path(@project) %></p>

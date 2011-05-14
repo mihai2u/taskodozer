@@ -8,11 +8,19 @@ Taskodozer::Application.routes.draw do
   devise_for :users
 
   # projects
-  resources :projects, :except => [:destroy]
+  resources :projects, :except => [:destroy] do
+    resources :discussions
+
+    resources :topics
+  end
   get "/projects/filter/:filter" => "projects#index", :as => "project_filter"
+  # archive projects
   match "/projects/:id/archive" => "projects#archive", :as => "project_archive", :via => :post
   match "/projects/:id/reactivate" => "projects#reactivate", :as => "project_reactivate", :via => :post
-  
+  # archive discussions
+  match "project/:project_id/discussion/:id/archive" => "discussions#archive", :as => "archive_project_discussion", :via => :post
+  match "project/:project_id/discussion/:id/reactivate" => "discussions#reactivate", :as => "reactivate_project_discussion", :via => :post
+
   # companies
   resources :companies, :except => [:index, :show]
 

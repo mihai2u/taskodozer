@@ -11,6 +11,7 @@ gem 'devise'
 gem 'cancan'
 gem 'nifty-generators'
 gem 'formtastic'
+gem 'jquery-rails'
 
 # Use unicorn as the web server
 # gem 'unicorn'

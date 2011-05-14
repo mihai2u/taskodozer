@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110513121900) do
+ActiveRecord::Schema.define(:version => 20110514104907) do
 
   create_table "accesses", :force => true do |t|
     t.integer "user_id"
@@ -26,6 +26,14 @@ ActiveRecord::Schema.define(:version => 20110513121900) do
     t.datetime "updated_at"
   end
 
+  create_table "discussions", :force => true do |t|
+    t.integer  "project_id"
+    t.string   "title"
+    t.integer  "archived",   :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "projects", :force => true do |t|
     t.string   "name"
     t.string   "slug"
@@ -35,6 +43,15 @@ ActiveRecord::Schema.define(:version => 20110513121900) do
     t.datetime "updated_at"
     t.integer  "archived",    :default => 0
     t.string   "status",      :default => "inquiry"
+  end
+
+  create_table "topics", :force => true do |t|
+    t.integer  "discussion_id"
+    t.string   "title"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "users", :force => true do |t|

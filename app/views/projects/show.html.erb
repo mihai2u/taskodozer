@@ -1,20 +1,19 @@
 <% title @project.company.name + ": " + @project.name %>
 
 <% content_for :sidebar do -%>
-<h2>Manage</h2>
+<h2>Discussions <%= link_to "New category", new_project_discussion_path(@project) %></h2>
 <ul>
-  <% if can? :manage, Project %>
-    <li><%= link_to "Edit Project", edit_project_path(@project) %></li>
-  <% end %>
-  <li>
-  <% if @project.archived == 0 %>
-    <%= link_to "Archive", project_archive_path(@project), :confirm => 'Are you sure you want to archive the project?', :method => :post %>
-  <% else %>
-    <%= link_to "Reactivate", project_reactivate_path(@project), :method => :post %>
-  <% end %>
-  </li>
+<li><%= link_to_unless_current "All", project_discussions_path(@project) %></li>
+<% @project.discussions.each do |discussion| %>
+<li><%= link_to_unless_current discussion.title, project_discussion_path(@project, discussion) %></li>
+<% end %>
 </ul>
-<h2>People</h2>
+
+<h2>People
+  <% if can? :create, Access %> 
+    <%= link_to "Add people", new_access_path(@project) %>
+  <% end %>
+</h2>
 <p>Stake holders: 
   <% @clients.each do |user| %>
     <span class="user">
@@ -38,9 +37,19 @@
   <% unless @users.include?(current_user) %>
     <li><%= link_to "Get involved", accesses_add_self_path(@project), :method => :post %></li>
   <% end %>
-  <% if can? :create, Access %> 
-    <li><%= link_to "Add people", new_access_path(@project) %></li>
+</ul>
+<h2>Manage</h2>
+<ul>
+  <% if can? :manage, Project %>
+    <li><%= link_to "Edit Project", edit_project_path(@project) %></li>
   <% end %>
+  <li>
+  <% if @project.archived == 0 %>
+    <%= link_to "Archive", project_archive_path(@project), :confirm => 'Are you sure you want to archive the project?', :method => :post %>
+  <% else %>
+    <%= link_to "Reactivate", project_reactivate_path(@project), :method => :post %>
+  <% end %>
+  </li>
 </ul>
 <% end -%>
 

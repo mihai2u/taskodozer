@@ -9,8 +9,13 @@ class Ability
         can :manage, :all
     else
         if user.developer?
+            can :manage, Discussion
         else
-            can :read, :all
+            if user.client?
+                can :manage, Discussion
+            else
+                can :read, :all
+            end
         end
     end
 

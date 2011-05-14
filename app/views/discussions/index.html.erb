@@ -1,0 +1,19 @@
+<% title "Discussions" %>
+
+<% content_for :sidebar do %>
+<h2>Discussions <%= link_to "New category", new_project_discussion_path(@project) %></h2>
+<ul>
+<li><%= link_to_unless_current "All", project_discussions_path(@project) %></li>
+<% @project.discussions.each do |discussion| %>
+<li><%= link_to_unless_current discussion.title, project_discussion_path(@project, discussion) %></li>
+<% end %>
+</ul>
+<% end %>
+
+<ul>
+<% @project.topics.each do |topic| %>
+  <li><%= link_to topic.title, project_topic_path(@project, topic) %></li>
+<% end %>
+</ul>
+
+<p><%= link_to "New Topic", new_project_topic_path(@project) %></p>

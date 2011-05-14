@@ -1,0 +1,12 @@
+<% title "New Topic" %>
+
+<%= semantic_form_for @topic, :url => project_topics_path(@project) do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :discussion, :collection => @discussions, :label => "Category" %>
+    <%= f.input :title, :label => "Topic title" %>
+    <%= f.input :content, :label => "Description" %>
+  <% end %>
+  <%= f.buttons %>
+<% end %>
+
+<p><%= link_to "Back to List", project_topics_path(@project) %></p>

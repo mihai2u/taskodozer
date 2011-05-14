@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   belongs_to :company
   has_many :accesses
   has_many :projects, :through => :accesses, :uniq => true
+  has_many :topics
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :timeoutable and :omniauthable
