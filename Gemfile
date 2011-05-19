@@ -13,6 +13,9 @@ gem 'nifty-generators'
 gem 'formtastic'
 gem 'jquery-rails'
 
+# Amazon Simple Email Sending
+gem "aws-ses", "~> 0.4.1", :require => 'aws/ses'
+
 # Use unicorn as the web server
 # gem 'unicorn'
 

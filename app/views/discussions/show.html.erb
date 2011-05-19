@@ -1,37 +1,29 @@
 <% title "#{@project.name}'s discussions: category #{@discussion.title}" %>
 
 <% content_for :sidebar do %>
-<h2>Discussions <%= link_to "New category", new_project_discussion_path(@project) %></h2>
-<ul>
-<li><%= link_to_unless_current "All", project_discussions_path(@project) %></li>
-<% @project.discussions.each do |discussion| %>
-<li><%= link_to_unless_current discussion.title, project_discussion_path(@project, discussion) %></li>
-<% end %>
-</ul>
-
-<h2>Manage</h2>
-<ul>
-  <% if can? :manage, Discussion %>
-    <li><%= link_to "Edit Category", edit_project_discussion_path(@project, @discussion) %></li>
+  <h2>Discussions <%= link_to "New category", new_project_discussion_path(@project) %></h2>
+  <ul>
+  <li><%= link_to_unless_current "All", project_discussions_path(@project) %></li>
+  <% @project.discussions.each do |discussion| %>
+  <li><%= link_to_unless_current discussion.title, project_discussion_path(@project, discussion) %></li>
   <% end %>
-  <li>
-  <% if @discussion.archived == 0 %>
-    <%= link_to "Archive", archive_project_discussion_path(@project, @discussion), :confirm => 'Are you sure you want to archive this category?', :method => :post %>
-  <% else %>
-    <%= link_to "Reactivate", reactivate_project_discussion_path(@project, @discussion), :method => :post %>
-  <% end %>
-  </li>
-</ul>
+  </ul>
+
+  <h2>Manage</h2>
+  <ul>
+    <% if can? :manage, Discussion %>
+      <li><%= link_to "Edit Category", edit_project_discussion_path(@project, @discussion) %></li>
+    <% end %>
+    <li>
+    <% if @discussion.archived == 0 %>
+      <%= link_to "Archive", archive_project_discussion_path(@project, @discussion), :confirm => 'Are you sure you want to archive this category?', :method => :post %>
+    <% else %>
+      <%= link_to "Reactivate", reactivate_project_discussion_path(@project, @discussion), :method => :post %>
+    <% end %>
+    </li>
+  </ul>
 <% end %>
 
-<ul>
-<% @discussion.topics.each do |topic| %>
-  <li><%= link_to topic.title, project_topic_path(@project, topic) %></li>
-<% end %>
-</ul>
-
-<p>
-  <%= link_to "Edit", edit_project_discussion_path(@project, @discussion) %> |
-  <%= link_to "Destroy", project_discussion_path(@project,@discussion), :confirm => 'Are you sure?', :method => :delete %> |
-  <%= link_to "View All", project_discussions_path(@project) %>
-</p>
+<div class="topics">
+  <%= render @discussion.topics %>
+</div>

@@ -1,0 +1,7 @@
+<div class="topic">
+	<h4><%= link_to topic.title, project_topic_path(topic.discussion.project, topic) %></h4>
+	<p class="meta"><%= topic.user.username %> posted this in <%= link_to topic.discussion.title, project_discussion_path(topic.discussion.project, topic.discussion) %> on <%= topic.created_at.to_s(:short) %></p>
+	<div class="content">
+	<%= topic.content %>
+	</div>
+</div>

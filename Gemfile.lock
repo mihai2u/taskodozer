@@ -29,6 +29,14 @@ GEM
       activesupport (= 3.0.7)
     activesupport (3.0.7)
     arel (2.0.9)
+    aws-ses (0.4.2)
+      builder
+      builder
+      mail (~> 2.2.5)
+      mime-types
+      mime-types
+      xml-simple
+      xml-simple
     bcrypt-ruby (2.1.4)
     builder (2.1.2)
     cancan (1.6.4)
@@ -83,11 +91,13 @@ GEM
     tzinfo (0.3.26)
     warden (1.0.4)
       rack (>= 1.0)
+    xml-simple (1.0.15)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  aws-ses (~> 0.4.1)
   cancan
   devise
   formtastic
