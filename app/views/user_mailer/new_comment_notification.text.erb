@@ -1,0 +1,8 @@
+Project: <%= @project.name %>
+Discussion: <%= @discussion.title %>
+Topic: <%= @topic.title %>
+
+<%= @comment.user.username %> posted a new <%= "private" if @comment.private? %> comment:
+<%= @comment.content %>
+
+This notification has been sent to <%= @subscribers.join(', ') %>.

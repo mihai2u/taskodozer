@@ -5,6 +5,7 @@
     <%= f.input :discussion, :collection => @discussions, :label => "Category" %>
     <%= f.input :title, :label => "Topic title" %>
     <%= f.input :content, :label => "Description" %>
+    <%= f.input :subscribers, :collection => @project.users, :label => "Subscribers", :as => :check_boxes %>
   <% end %>
   <%= f.buttons %>
 <% end %>

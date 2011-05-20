@@ -2,9 +2,10 @@
 
 <%= semantic_form_for @topic, :url => project_topics_path(@project) do |f| %>
   <%= f.inputs do %>
-    <%= f.input :discussion, :collection => @discussions, :label => "Category" %>
+    <%= f.input :discussion, :collection => @project.discussions, :label => "Category" %>
     <%= f.input :title, :label => "Topic title" %>
     <%= f.input :content, :label => "Description" %>
+    <%= f.input :subscribers, :collection => @subscribers, :label => "Subscribers", :as => :check_boxes %>
   <% end %>
   <%= f.buttons %>
 <% end %>

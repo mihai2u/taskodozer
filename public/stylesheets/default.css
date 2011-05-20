@@ -13,6 +13,7 @@ ul {padding-left: 2em; margin-left: 0}
 #tabs {clear: left; padding: 0; height: 24px; margin: 15px 0 0 0}
 #tabs ul {margin: 0; padding: 0}
 #tabs li {margin: 0; padding: 0; list-style: none; display: inline}
+#tabs li.right { float: right; }
 #tabs a {color: #fff; background-color: #327aff; text-decoration: none; float: left; font-size: 13px; font-weight: normal; padding: 3px 8px 5px 8px; margin: 0 2px}
 #tabs li a:hover {color: #fff; background-color: #89b8ff; text-decoration: none}
 #tabs .workspace a {background-color: #f00}

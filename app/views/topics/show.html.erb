@@ -1,16 +1,30 @@
 <% title @topic.title %>
 
 <% content_for :sidebar do %>
-  <h2>TODO: Subscribers <a href="#">Add People</a></h2>
+  <h2>Subscribers</h2>
   <p>Stake holders: 
-  <br>Developers: 
+  <% @clients.each do |user| %>
     <span class="user">
-        mehigh 
-        (<a title="Remove from project" rel="nofollow" data-method="delete" data-confirm="Are you sure you want to unsubscribe user from topic update notifications?" href="#">x</a>)
+      <%= user.username %>
+      <% if admin? || user == current_user %>
+        (<%= link_to "x", topic_subscriptions_path(@topic, user), :title => "Remove from project", :confirm => 'Are you sure you want to remove user from the subscribers list?', :method => :delete %>)
+      <% end %>
     </span>
-  </p>
+  <% end %>
+<br />Developers: 
+  <% @developers.each do |user| %>
+    <span class="user">
+      <%= user.username %> 
+      <% if admin? || user == current_user %>
+        (<%= link_to "x", topic_subscriptions_path(@topic, user), :title => "Unsubscribe from notifications", :confirm => 'Are you sure you want to remove user from the subscribers list?', :method => :delete %>)
+      <% end %>
+    </span>
+  <% end %>
+</p>
   <ul>
-  	<li><a href="#">Subscribe</a></li>
+    <% unless @users.include?(current_user) %>
+      <li><%= link_to "Subscribe", topic_subscriptions_add_self_path(@topic), :method => :post %></li>
+    <% end %>
   </ul>
   <h2>Manage</h2>
   <ul>
@@ -24,3 +38,22 @@
 <div class="content">
 <%= @topic.content %>
 </div>
+
+<hr />
+
+<%= render @comments %>
+
+<div class="comments_new">
+  <p><%= current_user.username %></p>
+  <%= semantic_form_for @comment, :url => comments_project_topic_path(@project, @topic) do |f| %>
+    <%= f.inputs do %>
+      <%= f.input :content, :label => "Leave a comment&hellip;", :input_html => { :class => 'autogrow', :rows => 6  } %>
+      <% if can? :private, Comment %>
+        <%= f.input :private, :label => "Make comment private", :hint => "(visible only to the internal developers)", :as => :boolean %>
+      <% end %>
+    <% end %>
+    <%= f.buttons %>
+  <% end %>
+</div> <!-- comments_new -->
+
+

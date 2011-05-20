@@ -10,6 +10,7 @@ class Ability
     else
         if user.developer?
             can :manage, Discussion
+            can :private, Comment
         else
             if user.client?
                 can :manage, Discussion

@@ -8,21 +8,42 @@ class TopicsController < ApplicationController
 
   def show
     @topic = Topic.find(params[:id])
+    @comment = Comment.new
+    @comment.private = 0
+    if current_user.client?
+      @comments = @topic.comments.public
+    else
+      @comments = @topic.comments
+    end
+    @users = @topic.subscribers
+    @clients = @topic.subscribers.clients
+    @developers = @topic.subscribers.developers + @topic.subscribers.managers
   end
 
   def new
     @topic = Topic.new
-    @discussions = @project.discussions
-    @topic.discussion = @discussions.first
+    @discussions = @project.discussions 
+    @subscribers = @project.users - ([] << current_user)
+    if params[:id].blank?
+      discussion = @discussions.first
+    else
+      discussion = Discussion.find(params[:id]) 
+    end
+    @topic.discussion = discussion
   end
 
   def create
     @topic = Topic.new(params[:topic])
     @topic.user = current_user
     if @topic.save
+      @topic.subscribers.each do |user|
+        UserMailer.new_topic_notification(user, @topic).deliver
+      end
+      @topic.subscribers << current_user
+      @topic.save!
       redirect_to project_discussion_path(@project, @topic.discussion), :notice => "Successfully created topic."
     else
-      render :action => 'new'
+      render :new
     end
   end
 

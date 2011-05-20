@@ -1,6 +1,9 @@
 <% title "Discussions" %>
 
 <% content_for :sidebar do %>
+	<ul class="actions">
+	<li><%= link_to "New Topic", new_project_topic_path(@project) %></li>
+	</ul>
 	<h2>Discussions <%= link_to "New category", new_project_discussion_path(@project) %></h2>
 	<ul>
 	<li><%= link_to_unless_current "All", project_discussions_path(@project) %></li>
@@ -13,5 +16,3 @@
 <div class="topics">
 <%= render @project.topics %>
 </div>
-
-<p><%= link_to "New Topic", new_project_topic_path(@project) %></p>

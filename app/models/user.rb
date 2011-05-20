@@ -3,6 +3,9 @@ class User < ActiveRecord::Base
   has_many :accesses
   has_many :projects, :through => :accesses, :uniq => true
   has_many :topics
+  has_many :subscriptions
+  has_many :subscribed_topics, :through => :subscriptions, :source => :topic
+  has_many :comments
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :timeoutable and :omniauthable
@@ -10,11 +13,11 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :username, :password, :password_confirmation, :remember_me, :role, :company_id, :project_name
+  attr_accessible :email, :username, :password, :password_confirmation, :remember_me, :role, :company_id
 
-  named_scope :clients, :conditions => { :role => "client" }
-  named_scope :developers, :conditions => { :role => "developer" }
-  named_scope :managers, :conditions => { :role => "admin" }
+  scope :clients, :conditions => { :role => "client" }
+  scope :developers, :conditions => { :role => "developer" }
+  scope :managers, :conditions => { :role => "admin" }
 
   before_create :setup_user
 

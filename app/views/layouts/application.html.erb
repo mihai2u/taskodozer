@@ -25,19 +25,26 @@
 	<% end %>
 
     </div>
+    <% if @project.blank? || @project.id.blank? %>
     <h1>Taskodozer</h1>
+    <% else %>
+    <h1><%= @project.company.name %> &raquo; <%= @project.name %> [<%= @project.status %>]</h1>
+    <% end %>
 
     <div id="tabs">
       <ul>
-			<li style="float: right;"><a href="#">Tab 1</a></li>
-			<li style="float: right;"><a href="#">Tab 2</a></li>
-
-			<li><%= link_to "Home", root_path %></li>
-      <% unless user_signed_in? %> 
-			<li><%= link_to "About", about_path %></li>
+      <% if @project.blank? || @project.id.blank? %>
       <% else %>
-      <li><%= link_to "Projects", projects_path %></li>
+			<li><%= link_to "Overview", @project %></li>
+			<li><%= link_to "Discussions", project_discussions_path(@project) %></li>
       <% end %>
+      
+      <% unless user_signed_in? %> 
+			<li class="right"><%= link_to "About", about_path %></li>
+      <% else %>
+      <li class="right"><%= link_to "Projects", projects_path %></li>
+      <% end %>
+      <li class="right"><%= link_to "Home", root_path %></li>
 		</ul>
     </div>
   </div>

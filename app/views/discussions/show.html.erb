@@ -1,6 +1,9 @@
 <% title "#{@project.name}'s discussions: category #{@discussion.title}" %>
 
 <% content_for :sidebar do %>
+  <ul class="actions">
+  <li><%= link_to "New Topic", new_project_discussion_topic_path(@project, @discussion) %></li>
+  </ul>
   <h2>Discussions <%= link_to "New category", new_project_discussion_path(@project) %></h2>
   <ul>
   <li><%= link_to_unless_current "All", project_discussions_path(@project) %></li>

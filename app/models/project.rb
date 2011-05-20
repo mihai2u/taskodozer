@@ -12,13 +12,13 @@ class Project < ActiveRecord::Base
 
   default_scope :order => 'created_at DESC'
 
-  named_scope :active, :conditions => { :archived => 0 }
-  named_scope :archived, :conditions => { :archived => 1 }
-  named_scope :inquiry, :conditions => { :status => "inquiry" }
-  named_scope :upcoming, :conditions => { :status => "upcoming" }
-  named_scope :current, :conditions => { :status => "current" }
-  named_scope :on_hold, :conditions => { :status => "on_hold" }
-  named_scope :review, :conditions => { :status => "review" }
+  scope :active, :conditions => { :archived => 0 }
+  scope :archived, :conditions => { :archived => 1 }
+  scope :inquiry, :conditions => { :status => "inquiry" }
+  scope :upcoming, :conditions => { :status => "upcoming" }
+  scope :current, :conditions => { :status => "current" }
+  scope :on_hold, :conditions => { :status => "on_hold" }
+  scope :review, :conditions => { :status => "review" }
 
   before_validation :setup_project
   after_save :setup_discussions

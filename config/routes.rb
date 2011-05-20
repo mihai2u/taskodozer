@@ -10,8 +10,9 @@ Taskodozer::Application.routes.draw do
   # projects
   resources :projects, :except => [:destroy] do
     resources :discussions
-
-    resources :topics
+    resources :topics do
+      match 'comments' => "comments#create", :on => :member, :via => :post
+    end
   end
   get "/projects/filter/:filter" => "projects#index", :as => "project_filter"
   # archive projects
@@ -20,6 +21,9 @@ Taskodozer::Application.routes.draw do
   # archive discussions
   match "project/:project_id/discussion/:id/archive" => "discussions#archive", :as => "archive_project_discussion", :via => :post
   match "project/:project_id/discussion/:id/reactivate" => "discussions#reactivate", :as => "reactivate_project_discussion", :via => :post
+
+  # new_project_discussion_topic_path
+  match "project/:project_id/discussion/:id/topics/new" => "topics#new", :as => "new_project_discussion_topic", :via => :get
 
   # companies
   resources :companies, :except => [:index, :show]
@@ -31,6 +35,10 @@ Taskodozer::Application.routes.draw do
   match "/accesses" => "accesses#index", :via => :get, :as => "accesses"
   match "/projects/:project_id/accesses/:user_id" => "accesses#destroy", :as => "access"
   # match "/accesses/:id" => "accesses#destroy", :via => :delete, :as => "access"
+
+  # subscriptions
+  match "/topic/:topic_id/subscribe" => "subscriptions#create_topic_self", :via => :post, :as => "topic_subscriptions_add_self"
+  match "/topic/:topic_id/unsubscribe/:user_id" => "subscriptions#destroy_topic", :as => "topic_subscriptions"
 
   # administrative
   get "administration/management"
