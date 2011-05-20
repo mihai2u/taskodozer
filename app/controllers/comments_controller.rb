@@ -7,7 +7,7 @@ class CommentsController < ApplicationController
     @comment.user = current_user
     @comment.topic = @topic
     if @comment.save
-      if @comment.private?
+      if @comment.secret?
         @subscribers = @topic.subscribers.developers + @topic.subscribers.managers
       else
         @subscribers = @topic.subscribers

@@ -9,7 +9,7 @@ class TopicsController < ApplicationController
   def show
     @topic = Topic.find(params[:id])
     @comment = Comment.new
-    @comment.private = 0
+    @comment.secret = 0
     if current_user.client?
       @comments = @topic.comments.public
     else

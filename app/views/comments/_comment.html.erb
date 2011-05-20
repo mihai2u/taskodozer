@@ -1,4 +1,4 @@
-<div class="comment <%= "private" if comment.private? %>">
+<div class="comment <%= "secret" if comment.secret? %>">
   <p class="meta"><%= comment.user.username %> on <%= comment.created_at.to_s(:short_time) %> said:</p>
   <div class="content">
   <%= comment.content %>

@@ -14,7 +14,7 @@ class UserMailer < ActionMailer::Base
   	@project = @discussion.project
   	@user = user
   	@subscribers = []
-    if @comment.private?
+    if @comment.secret?
       @subscribers_arr = @topic.subscribers.developers + @topic.subscribers.managers
     else
       @subscribers_arr = @topic.subscribers

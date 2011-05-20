@@ -48,8 +48,8 @@
   <%= semantic_form_for @comment, :url => comments_project_topic_path(@project, @topic) do |f| %>
     <%= f.inputs do %>
       <%= f.input :content, :label => "Leave a comment&hellip;", :input_html => { :class => 'autogrow', :rows => 6  } %>
-      <% if can? :private, Comment %>
-        <%= f.input :private, :label => "Make comment private", :hint => "(visible only to the internal developers)", :as => :boolean %>
+      <% if can? :secret, Comment %>
+        <%= f.input :secret, :label => "Make comment secret", :hint => "(visible only to the internal developers)", :as => :boolean %>
       <% end %>
     <% end %>
     <%= f.buttons %>
