@@ -1,7 +1,21 @@
-<div class="comment <%= "secret" if comment.secret? %>">
+<div class="comment <%= "secret" if comment.secret? %>" id="comment-<%= comment.id %>">
+  <% if (comment.created_at > (Time.now - 15.minutes)) && (current_user == comment.user) %> 
+  	<%= link_to "(Edit)", edit_comment_project_topic_path(comment.topic.discussion.project, comment.topic, comment) %>  <span class="note">(for another <%= ((15.minutes - (Time.now - comment.created_at)) / 60).to_i %> minutes)</span>
+  <% elsif can? :manage, Comment %>
+    <%= link_to "(Edit)", edit_comment_project_topic_path(comment.topic.discussion.project, comment.topic, comment) %>
+  <% end %>
   <p class="meta"><%= comment.user.username %> on <%= comment.created_at.to_s(:short_time) %> said:</p>
   <div class="content">
   <%= comment.content %>
-</div>
+  </div>
+  <% unless comment.attachment.blank? %>
+  <div class="<%= comment.attachment_content_type %>">
+    <% if comment.attachment_content_type.include? 'image' %>
+      <%= link_to (image_tag comment.attachment_url(:thumb).to_s), comment.attachment_url %>
+    <% else %>
+      <%= link_to comment.attachment_file_name, comment.attachment_url %> (<%= number_to_human_size(comment.attachment_file_size) %>)
+    <% end %>
+  </div>
+  <% end %>
 </div>
 <hr />

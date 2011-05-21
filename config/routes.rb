@@ -12,6 +12,8 @@ Taskodozer::Application.routes.draw do
     resources :discussions
     resources :topics do
       match 'comments' => "comments#create", :on => :member, :via => :post
+      match 'comments/:comment_id/edit' => "comments#edit", :on => :member, :via => :get, :as => "edit_comment"
+      match 'comments/:comment_id/' => "comments#update", :on => :member, :as => "update_comment"
     end
   end
   get "/projects/filter/:filter" => "projects#index", :as => "project_filter"

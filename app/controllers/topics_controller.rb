@@ -1,5 +1,6 @@
 class TopicsController < ApplicationController
 
+  before_filter :authenticate_user!
   before_filter :init_project
 
   def index
@@ -8,8 +9,7 @@ class TopicsController < ApplicationController
 
   def show
     @topic = Topic.find(params[:id])
-    @comment = Comment.new
-    @comment.secret = 0
+    @comment = Comment.new(:secret => 0)
     if current_user.client?
       @comments = @topic.comments.public
     else

@@ -28,7 +28,7 @@
   </ul>
   <h2>Manage</h2>
   <ul>
-    <% if can? :manage, Topic %>
+    <% if (can? :manage, Topic) || (@topic.user == current_user) %>
       <li><%= link_to "Edit Topic", edit_project_topic_path(@project,@topic) %></li>
     <% end %>
   </ul>
@@ -45,11 +45,12 @@
 
 <div class="comments_new">
   <p><%= current_user.username %></p>
-  <%= semantic_form_for @comment, :url => comments_project_topic_path(@project, @topic) do |f| %>
+  <%= semantic_form_for @comment, :url => comments_project_topic_path(@project, @topic), :html => { :multipart => true } do |f| %>
     <%= f.inputs do %>
       <%= f.input :content, :label => "Leave a comment&hellip;", :input_html => { :class => 'autogrow', :rows => 6  } %>
+      <%= f.input :attachment, :label => "Attach a file", :as => :file %>
       <% if can? :secret, Comment %>
-        <%= f.input :secret, :label => "Make comment secret", :hint => "(visible only to the internal developers)", :as => :boolean %>
+        <%= f.input :secret, :label => "Make comment secret", :hint => "(visible only to the internal developers)", :as => :boolean, :default => "0" %>
       <% end %>
     <% end %>
     <%= f.buttons %>

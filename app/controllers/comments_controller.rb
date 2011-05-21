@@ -25,9 +25,16 @@ class CommentsController < ApplicationController
   end
 
   def edit
+    @comment = Comment.find(params[:comment_id])
   end
 
   def update
+    @comment = Comment.find(params[:comment_id])
+    if @comment.update_attributes(params[:comment])
+      redirect_to project_topic_path(@project, @topic), :notice => "Successfully edited comment."
+    else
+      render :action => 'edit'
+    end
   end
 
   def destroy

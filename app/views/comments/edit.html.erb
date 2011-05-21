@@ -1,2 +1,41 @@
-<h1>Comment#edit</h1>
-<p>Find me in app/views/comment/edit.html.erb</p>
+<% title "Edit Comment" %>
+
+<%= form_for @comment, :url => update_comment_project_topic_path(@project, @topic, @comment), :html => { :multipart => true, :class => "formtastic" } do |f| %>
+<fieldset class="inputs">
+  <ol>
+    <li id="comment_content_input" class="text required">
+      <%= f.label :content, "Comment" %>
+  	  <%= f.text_area :content %>
+    </li>
+	<% unless @comment.attachment.blank? %>
+      <li>
+      <%= link_to @comment.attachment_file_name, @comment.attachment_url %> (<%= number_to_human_size(@comment.attachment_file_size) %>)
+      </li>
+    <% end %>
+    <li id="comment_attachment_input" class="file optional">
+      <%= f.label :attachment, "Add/Replace Attachment" %>
+      <%= f.file_field :attachment %>
+    </li>
+    <li id="comment_remove_attachment_input" class="boolean optional">
+    	<input type="hidden" value="0" name="comment[remove_attachment]">
+    	<label for="comment_remove_attachment"><input type="checkbox" value="1" name="comment[remove_attachment]" id="comment_remove_attachment">Remove attachment</label>
+    </li>
+    <% if can? :secret, Comment %>
+    <li id="comment_secret_input" class="boolean optional"><input type="hidden" value="0" name="comment[secret]">
+      <label for="comment_secret">
+        <%= f.check_box :secret %>
+      	Make comment secret
+      </label>
+      <p class="inline-hints">(visible only to the internal developers)</p>
+    </li>
+    <% end %>
+  </ol>
+</fieldset>
+<fieldset class="buttons">
+  <ol>
+    <li class="commit">
+      <%= f.submit "Update Comment" %>
+    </li>
+  </ol>
+</fieldset>
+<% end %>

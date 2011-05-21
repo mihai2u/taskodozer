@@ -13,6 +13,13 @@ gem 'nifty-generators'
 gem 'formtastic'
 gem 'jquery-rails'
 
+# File uploads
+gem 'carrierwave', :git => 'git://github.com/jnicklas/carrierwave.git'
+# For amazon s3 support
+gem 'fog'
+# Thumbnails creation
+gem "mini_magick"
+
 # Amazon Simple Email Sending
 gem "aws-ses", "~> 0.4.1", :require => 'aws/ses'
 

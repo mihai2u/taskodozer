@@ -191,6 +191,7 @@ pre {
 }
 .error{background-color: #ff0062; font-weight: bold; font-size: 1.3em}
 #right span.user { white-space: nowrap; }
+.secret { background: #ddd; }
 
 /* Formtastic */
 /* -------------------------------------------------------------------------------------------------

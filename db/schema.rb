@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110520113824) do
+ActiveRecord::Schema.define(:version => 20110520224953) do
 
   create_table "accesses", :force => true do |t|
     t.integer "user_id"
@@ -20,10 +20,14 @@ ActiveRecord::Schema.define(:version => 20110520113824) do
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
     t.integer  "topic_id"
-    t.integer  "secret",     :default => 0
+    t.integer  "secret",                  :default => 0
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "attachment"
+    t.string   "attachment_content_type"
+    t.string   "attachment_file_size"
+    t.string   "attachment_file_name"
   end
 
   create_table "companies", :force => true do |t|
