@@ -1,0 +1,40 @@
+<%= form_for @task do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.label :status %><br />
+    <%= f.text_field :status %>
+  </p>
+  <p>
+    <%= f.label :duration %><br />
+    <%= f.text_field :duration %>
+  </p>
+  <p>
+    <%= f.label :priority %><br />
+    <%= f.text_field :priority %>
+  </p>
+  <p>
+    <%= f.label :user_id %><br />
+    <%= f.text_field :user_id %>
+  </p>
+  <p>
+    <%= f.label :assigned_user_id %><br />
+    <%= f.text_field :assigned_user_id %>
+  </p>
+  <p>
+    <%= f.label :parent_id %><br />
+    <%= f.text_field :parent_id %>
+  </p>
+  <p>
+    <%= f.label :project_id %><br />
+    <%= f.text_field :project_id %>
+  </p>
+  <p>
+    <%= f.label :secret %>
+    <%= f.text_field :secret %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>

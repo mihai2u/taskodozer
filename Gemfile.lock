@@ -64,7 +64,7 @@ GEM
       nokogiri (>= 1.4.4)
       ruby-hmac
     formatador (0.1.4)
-    formtastic (1.2.3)
+    formtastic (1.2.4.beta2)
       actionpack (>= 2.3.7)
       activesupport (>= 2.3.7)
       i18n (~> 0.4)
@@ -127,7 +127,7 @@ DEPENDENCIES
   carrierwave!
   devise
   fog
-  formtastic
+  formtastic (= 1.2.4.beta2)
   jquery-rails
   mini_magick
   mocha

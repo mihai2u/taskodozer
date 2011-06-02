@@ -1,5 +1,7 @@
 Taskodozer::Application.routes.draw do
 
+  resources :tasks
+
   # base
   root :to => "pages#home"
   get "/about" => "pages#about", :as => "about"

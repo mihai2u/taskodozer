@@ -10,7 +10,7 @@ gem 'mysql'
 gem 'devise'
 gem 'cancan'
 gem 'nifty-generators'
-gem 'formtastic'
+gem 'formtastic', "1.2.4.beta2"
 gem 'jquery-rails'
 
 # File uploads

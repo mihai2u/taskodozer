@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110520224953) do
+ActiveRecord::Schema.define(:version => 20110602203839) do
 
   create_table "accesses", :force => true do |t|
     t.integer "user_id"
@@ -61,6 +61,20 @@ ActiveRecord::Schema.define(:version => 20110520224953) do
   create_table "subscriptions", :force => true do |t|
     t.integer "user_id"
     t.integer "topic_id"
+  end
+
+  create_table "tasks", :force => true do |t|
+    t.text     "description"
+    t.string   "status",                                         :default => "pending"
+    t.decimal  "duration",         :precision => 8, :scale => 2, :default => 0.0
+    t.string   "priority",                                       :default => "medium"
+    t.integer  "secret",                                         :default => 0
+    t.integer  "user_id"
+    t.integer  "assigned_user_id"
+    t.integer  "parent_id"
+    t.integer  "project_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "topics", :force => true do |t|

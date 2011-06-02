@@ -4,6 +4,7 @@ class Project < ActiveRecord::Base
   has_many :users, :through => :accesses, :uniq => true
   has_many :discussions
   has_many :topics, :through => :discussions
+  has_many :tasks
   
   attr_accessible :name, :slug, :description, :company_id, :status
 

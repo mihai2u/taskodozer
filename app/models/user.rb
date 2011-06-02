@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   has_many :subscriptions
   has_many :subscribed_topics, :through => :subscriptions, :source => :topic
   has_many :comments
+  has_many :tasks
+  has_many :assigned_tasks, :class_name => "Task", :foreign_key => "assigned_user_id"
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :timeoutable and :omniauthable
@@ -41,7 +43,7 @@ class User < ActiveRecord::Base
 
   def setup_user
     if self.role.blank? # blank role comes from website registrations
-      self.role = "client" 
+      self.role = "client"
       if self.company_id.blank?
         new_company = Company.new(:name => self.username)
         new_company.save
