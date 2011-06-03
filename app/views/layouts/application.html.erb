@@ -37,6 +37,7 @@
       <% else %>
 			<li><%= link_to "Overview", @project %></li>
 			<li><%= link_to "Discussions", project_discussions_path(@project) %></li>
+      <li><%= link_to "Tasks", project_tasks_path(@project) %></li>
       <% end %>
       
       <% unless user_signed_in? %> 

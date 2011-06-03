@@ -1,40 +1,38 @@
-<% title "Task" %>
+<% title "#" + @task.id.to_s + " " + @task.name %>
 
-<p>
-  <strong>Description:</strong>
+<% content_for :sidebar do %>
+  <ul class="actions">
+  <li><%= link_to "New Task", new_project_task_path(@project) %></li>
+  </ul>
+
+  <% if can? :manage, Task %>
+  <h2>Manage</h2>
+  <ul>
+    <li><%= link_to "Edit Task", edit_project_task_path(@project, @task) %></li>
+    <li><%= link_to "Destroy", project_task_path(@project,@task), :confirm => 'Are you sure?', :method => :delete %></li>
+  </ul>
+  <% end %>
+<% end %>
+
+<div class="meta">
+  <p>by <%= @task.user.username %> created this on <%= @task.created_at.to_s(:short_date) %>.</p>
+  <dl>
+    <dt>Status:</dt>
+    <dd><%= @task.status %></dd>
+    <dt>Priority:</dt>
+    <dd><%= @task.priority %></dd>
+    <dt>Assigned to:<dt>
+    <dd><%= @task.assignee %></dd>
+</div>
+<div class="content">
   <%= @task.description %>
-</p>
-<p>
-  <strong>Status:</strong>
-  <%= @task.status %>
-</p>
-<p>
-  <strong>Duration:</strong>
-  <%= @task.duration %>
-</p>
-<p>
-  <strong>Priority:</strong>
-  <%= @task.priority %>
-</p>
-<p>
-  <strong>User:</strong>
-  <%= @task.user_id %>
-</p>
-<p>
-  <strong>Assigned User:</strong>
-  <%= @task.assigned_user_id %>
-</p>
-<p>
-  <strong>Parent:</strong>
-  <%= @task.parent_id %>
-</p>
-<p>
-  <strong>Project:</strong>
-  <%= @task.project_id %>
-</p>
+</div>
+<% unless @task.parent_id.blank? %>
+<h3>Parent task:</h3>
+<%= render @task.parent %>
+<% end %>
 
-<p>
-  <%= link_to "Edit", edit_task_path(@task) %> |
-  <%= link_to "Destroy", @task, :confirm => 'Are you sure?', :method => :delete %> |
-  <%= link_to "View All", tasks_path %>
-</p>
+<% unless @task.tasks.blank? %>
+<h3>Child tasks:</h3>
+<%= render @task.tasks %>
+<% end %>

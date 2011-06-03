@@ -1,0 +1,8 @@
+<div class="task">
+<span class="status <%= task.status %>"><%= task.status %></span>
+<span class="priority <%= task.priority %>"><%= task.priority %></span>
+<%= link_to task.longname, project_task_path(@project,task) %>
+<span class="assignee">Assignee: <strong><%= task.assignee %></strong></span>
+<span class="author">Opener: <strong><%= task.user.username %></strong></span>
+<span class="created_at"><%= time_ago_in_words(task.created_at) + " ago" %></span>
+</div>

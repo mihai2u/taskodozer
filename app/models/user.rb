@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   has_many :subscribed_topics, :through => :subscriptions, :source => :topic
   has_many :comments
   has_many :tasks
-  has_many :assigned_tasks, :class_name => "Task", :foreign_key => "assigned_user_id"
+  has_many :assigned_tasks, :class_name => "Task"
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :timeoutable and :omniauthable

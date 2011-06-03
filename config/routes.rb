@@ -12,6 +12,7 @@ Taskodozer::Application.routes.draw do
   # projects
   resources :projects, :except => [:destroy] do
     resources :discussions
+    resources :tasks
     resources :topics do
       match 'comments' => "comments#create", :on => :member, :via => :post
       match 'comments/:comment_id/edit' => "comments#edit", :on => :member, :via => :get, :as => "edit_comment"
