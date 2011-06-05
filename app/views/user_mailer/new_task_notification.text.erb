@@ -1,0 +1,15 @@
+Project: <%= @task.project.name %>
+New task: <%= @task.name %>
+
+<%= @task.description %>
+
+<% unless @task.attachment.blank? %> 
+A new file has been uploaded:
+<%= @task.attachment_file_name %> (<%= number_to_human_size(@task.attachment_file_size) %>)
+<%= @task.attachment_url %>
+<% end %>
+
+Status: <%= @task.status %>
+Priority: <%= @task.priority %>
+Assignee: <%= @task.assignee %>
+

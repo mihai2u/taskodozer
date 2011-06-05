@@ -1,7 +1,5 @@
 Taskodozer::Application.routes.draw do
 
-  resources :tasks
-
   # base
   root :to => "pages#home"
   get "/about" => "pages#about", :as => "about"
@@ -12,7 +10,11 @@ Taskodozer::Application.routes.draw do
   # projects
   resources :projects, :except => [:destroy] do
     resources :discussions
-    resources :tasks
+    resources :tasks do
+      match 'notes' => "notes#create", :on => :member, :via => :post
+      match 'notes/:note_id/edit' => "notes#edit", :on => :member, :via => :get, :as => "edit_note"
+      match 'notes/:note_id/' => "notes#update", :on => :member, :as => "update_note"
+    end
     resources :topics do
       match 'comments' => "comments#create", :on => :member, :via => :post
       match 'comments/:comment_id/edit' => "comments#edit", :on => :member, :via => :get, :as => "edit_comment"

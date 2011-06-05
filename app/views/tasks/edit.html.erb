@@ -1,12 +1,23 @@
 <% title "Edit Task" %>
 
-<%= semantic_form_for @task, :url => project_task_path(@project, @task) do |f| %>
+<%= semantic_form_for @task, :url => project_task_path(@project, @task), :html => { :multipart => true } do |f| %>
   <%= f.inputs do %>
   	<%= f.input :name %>
     <%= f.input :description %>
     <%= f.input :status, :collection => Task::STATUSES, :include_blank => false %>
     <%= f.input :priority, :collection => Task::PRIORITIES, :include_blank => false %>
     <%= f.input :assigned_user_id, :as => :select, :collection => @project.users, :include_blank => '-- Unassigned --' %>
+
+
+    <%= f.input :attachment, :label => "Add/Replace Attachment", :as => :file %>
+    <% unless @task.attachment.blank? %>
+    <li>
+      <%= link_to @task.attachment_file_name, @task.attachment_url %> (<%= number_to_human_size(@task.attachment_file_size) %>)
+    </li>
+    <%= f.input :remove_attachment, :as => :boolean %>
+    <% end %>
+
+
     <%= f.input :parent_id, :as => :select, :collection => @project.tasks %>
     <%= f.input :secret, :as => :boolean %>
   <% end %>

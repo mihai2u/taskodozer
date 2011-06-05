@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   has_many :subscriptions
   has_many :subscribed_topics, :through => :subscriptions, :source => :topic
   has_many :comments
+  has_many :notes
   has_many :tasks
   has_many :assigned_tasks, :class_name => "Task"
 

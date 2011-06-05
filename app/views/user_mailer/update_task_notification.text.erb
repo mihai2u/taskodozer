@@ -1,0 +1,21 @@
+Project: <%= @project.name %>
+Task: <%= @task.name %>
+
+<%= @note.user.username %> updated the task:
+<%= @note.content %>
+<% unless @note.attachment.blank? %> 
+A new file has been uploaded:
+<%= @note.attachment_file_name %> (<%= number_to_human_size(@note.attachment_file_size) %>)
+<%= @note.attachment_url %>
+<% end %>
+
+<% unless @note.updates.blank? %>
+Task Updates:
+<% @note.updates.each do |key, val| %>
+    <% if key.to_s == "assigned_user_id" %>
+Assignee: <%= User.find(val).username %>
+      <% else %>
+<%= key.to_s.humanize %>: <%= val %>
+    <% end %>
+  <% end %>
+<% end %>

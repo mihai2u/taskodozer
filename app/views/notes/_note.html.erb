@@ -1,0 +1,35 @@
+<div class="note" id="note-<%= note.id %>">
+  <% if (note.created_at > (Time.now - 15.minutes)) && (current_user == note.user) %> 
+  	<%= link_to "(Edit)", edit_note_project_task_path(note.task.project, note.task, note) %>  <span class="note">(for another <%= ((15.minutes - (Time.now - note.created_at)) / 60).to_i %> minutes)</span>
+  <% elsif can? :manage, Note %>
+    <%= link_to "(Edit)", edit_note_project_task_path(note.task.project, note.task, note) %>
+  <% end %>
+  <p class="meta"><%= note.user.username %> updated the task on <%= note.created_at.to_s(:short_time) %>.</p>
+  <div class="content">
+  <%= note.content %>
+  </div>
+  <% unless note.updates.blank? %>
+    <h5>Updates</h5>
+    <dl>
+    <% note.updates.each do |key, val| %>
+      <% if key.to_s == "assigned_user_id" %>
+      <dt>Assignee:</dt>
+      <dd><%= User.find(val).username %></dd>
+      <% else %>
+      <dt><%= key.to_s.humanize %>:</dt>
+      <dd><%= val %></dd>
+      <% end %>
+    <% end %>
+    </dl>
+  <% end %>
+  <% unless note.attachment.blank? %>
+  <div class="<%= note.attachment_content_type %>">
+    <% if note.attachment_content_type.include? 'image' %>
+      <%= link_to (image_tag note.attachment_url(:thumb).to_s), note.attachment_url %>
+    <% else %>
+      <%= link_to note.attachment_file_name, note.attachment_url %> (<%= number_to_human_size(note.attachment_file_size) %>)
+    <% end %>
+  </div>
+  <% end %>
+</div>
+<hr />

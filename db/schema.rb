@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110603184424) do
+ActiveRecord::Schema.define(:version => 20110605193722) do
 
   create_table "accesses", :force => true do |t|
     t.integer "user_id"
@@ -47,6 +47,19 @@ ActiveRecord::Schema.define(:version => 20110603184424) do
     t.datetime "updated_at"
   end
 
+  create_table "notes", :force => true do |t|
+    t.text     "content"
+    t.string   "updates"
+    t.integer  "user_id"
+    t.integer  "task_id"
+    t.string   "attachment"
+    t.string   "attachment_content_type"
+    t.string   "attachment_file_size"
+    t.string   "attachment_file_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "projects", :force => true do |t|
     t.string   "name"
     t.string   "slug"
@@ -65,10 +78,10 @@ ActiveRecord::Schema.define(:version => 20110603184424) do
 
   create_table "tasks", :force => true do |t|
     t.text     "description"
-    t.string   "status",                                         :default => "pending"
-    t.decimal  "duration",         :precision => 8, :scale => 2, :default => 0.0
-    t.string   "priority",                                       :default => "medium"
-    t.integer  "secret",                                         :default => 0
+    t.string   "status",                                                :default => "pending"
+    t.decimal  "duration",                :precision => 8, :scale => 2, :default => 0.0
+    t.string   "priority",                                              :default => "medium"
+    t.integer  "secret",                                                :default => 0
     t.integer  "user_id"
     t.integer  "assigned_user_id"
     t.integer  "parent_id"
@@ -76,6 +89,10 @@ ActiveRecord::Schema.define(:version => 20110603184424) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
+    t.string   "attachment"
+    t.string   "attachment_content_type"
+    t.string   "attachment_file_size"
+    t.string   "attachment_file_name"
   end
 
   create_table "topics", :force => true do |t|

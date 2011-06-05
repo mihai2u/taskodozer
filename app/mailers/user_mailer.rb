@@ -24,4 +24,18 @@ class UserMailer < ActionMailer::Base
   	end
   	mail(:to => user.email, :subject => "Re: [#{@comment.topic.discussion.project.name}] - #{@comment.topic.title}")
   end
+
+  def new_task_notification(user, task)
+    @task = task
+    @user = user
+  mail(:to => user.email, :subject => "New Task")
+  end
+
+  def update_task_notification(user, note)
+    @user = user
+    @note = note
+    @task = @note.task
+    @project = @task.project
+    mail(:to => user.email, :subject => "Re: [#{@project.name}] #{@task.name} - updated")
+  end
 end

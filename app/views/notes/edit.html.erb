@@ -1,0 +1,15 @@
+<% title "Edit Note" %>
+
+<%= semantic_form_for @note, :url => update_note_project_task_path(@project, @task, @note), :html => { :multipart => true } do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :content %>
+    <%= f.input :attachment, :label => "Add/Replace Attachment", :as => :file %>
+    <% unless @note.attachment.blank? %>
+    <li>
+      <%= link_to @note.attachment_file_name, @note.attachment_url %> (<%= number_to_human_size(@note.attachment_file_size) %>)
+    </li>
+    <%= f.input :remove_attachment, :as => :boolean %>
+    <% end %>
+  <% end %>
+  <%= f.buttons %>
+<% end %>
