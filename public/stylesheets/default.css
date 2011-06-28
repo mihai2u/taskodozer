@@ -15,12 +15,18 @@
 -----------------------------------------------------------------------------------------------
 ===============================================================================================*/
 
+#main ul.tasks li:after
+{ clear: both; content: "\200B"; display: block; height: 0; }
+
+#main ul.tasks li 
+{ zoom: 1; }
+
 body {font-family: "Lucida Grande", verdana, arial, helvetica, sans-serif; color: #000; background-color: #d4d4d4; margin: 0; padding: 0; font-size: 0.8em; min-width: 900px}
-a:link, a:visited {color: #0054ff}
-a:hover {background-color: #0054ff; color: #fff}
+a {color: #0054ff; text-decoration: none; }
+a:hover {text-decoration: underline;}
 .meta p { margin-top: 0; }
 ul {padding-left: 2em; margin-left: 0}
-#header {background-color: #204ca0; margin: 0; padding: 0.5em 2.2em 0 3em}
+#header {background-color: #204ca0; margin: 0; padding: 0.5em 2.2em 0 3em; position: relative; z-index: 2; }
 #header h1 {font-weight: normal; color: #fff}
 #header h1 span {font-size: 0.6em; color: #bfd82d}
 #header h1 a {font-weight: normal; color: #fff; text-decoration: none;}
@@ -29,16 +35,27 @@ ul {padding-left: 2em; margin-left: 0}
 #global_links a:hover {color: #00a8c6; background-color: #e3fdff}
 #tabs {clear: left; padding: 0; height: 24px; margin: 15px 0 0 0}
 #tabs ul {margin: 0; padding: 0}
-#tabs li {margin: 0; padding: 0; list-style: none; display: inline}
+#tabs li {position: relative; margin: 0; padding: 0; list-style: none; display: inline}
+#tabs li:hover > a { text-decoration: underline; }
+#tabs li ul { position: absolute; top: 24px; left: -999em; width: 200px; border-bottom: 1px solid #204CA0;}
+#tabs li ul ul { position: absolute; top: 0; left: -999em; }
+#tabs li:hover ul { left: 0; }
+#tabs li:hover ul ul { left: -999em; }
+#tabs li:hover ul li:hover ul { left: 200px; }
 #tabs li.right { float: right; }
+#tabs li.right:hover ul { left: auto; right: 0; }
+#tabs li.right:hover ul ul { left: -999em; right: auto; }
+#tabs li.right:hover ul li:hover ul { left: auto; right: 200px; }
+#tabs li ul li { float: left; width: 200px; }
+#tabs li ul li a { margin: 0; width: 184px; border-top: 1px solid #D3DBFF;}
 #tabs a {color: #fff; background-color: #327aff; text-decoration: none; float: left; font-size: 13px; font-weight: normal; padding: 3px 8px 5px 8px; margin: 0 2px}
 #tabs li a:hover {color: #fff; background-color: #89b8ff; text-decoration: none}
 #tabs .workspace a {background-color: #f00}
 #tabs li a.current {color: #000; background-color: #d4d4d4}
 #tabs .with_space a, #tabs .with_space a.current {margin-right: 10px}
-#main {margin: 2em 0 0 3em}
+#main {position: relative; z-index: 1; margin: 2em 0 0 3em}
 #left, #right, #right_kase {float: left}
-#left {background-color: #fff; width: 66%; 
+#left {background-color: #fcfcfc; width: 66%; 
 	box-shadow:5px 5px 5px #999;
 	moz-box-shadow:5px 5px 5px #999;	
 	webkit-box-shadow:5px 5px 5px #999;	
@@ -67,7 +84,7 @@ div.progressBar div.border {background-color: #fff; border: 1px solid grey; widt
 div.progressBar div.background {background-color: #333; height: 18px; width: 0%}
 div.infoBox {margin: 15px 0px; padding: 10px; background-color: #eaf0f6; border: 1px solid #bcc6d0}
 div.helpBox {margin: 15px 0px; padding: 10px; background-color: #fafad6; border: 1px solid #f6d87d}
-#right, #right_kase {width: 30%; margin-left: 20px; color: #666; background: white}
+#right, #right_kase {width: 30%; margin-left: 20px; color: #666; background: #fcfcfc}
 #kase_avatar {position: absolute; right: 25px; margin-right: -6px}
 span input#kase_avatar {left: 0px}
 #right {box-shadow:5px 5px 5px #999;
@@ -208,7 +225,30 @@ pre {
 }
 .error{background-color: #ff0062; font-weight: bold; font-size: 1.3em}
 #right span.user { white-space: nowrap; }
-.secret { background: #ddd; }
+.completion-bar { height: 5px; width: 100%; background-color: #eee; border: 1px solid #999; }
+.completion-bar .fill { height: 5px; float: left; background-color: #bbb; }
+p.seeall { text-align: right; }
+
+/* Comments */
+.note { padding-top: 10px; }
+.meta { margin-bottom: 10px; }
+.note .meta { margin-bottom: 0; }
+.meta { height: 18px; }
+.meta .author { float: left; color: #999; font-weight: bold; }
+
+.note .meta .author a,
+.note .meta .author .note { font-weight: normal; }
+.meta .date { float: right; color: #999; }
+.note .note-contents { border: 1px solid #DAD9D9; padding: 10px 10px 1px 10px; background: #f5f5f5; }
+.secret { background: #fefafa; }
+.secret .note-contents { border-color: #; background: #f5e5e5 url(/images/secret.png) 99% 5px no-repeat; }
+.note .content { margin: 0 0 10px;}
+.attributes { margin: 0 0 10px;}
+.attributes h4 { margin: 0; }
+.attributes dl { margin: 0; }
+.attributes dl dt { display: inline; font-weight: bold; }
+.attributes dl dd { display: inline; margin: 0 5px 0 0; }
+.attachments { margin: 0 0 10px 0;}
 
 /* 2. LAYOUT
 -----------------------------------------------------------------------------------------------
@@ -219,31 +259,34 @@ pre {
 -----------------------------------------------------------------------------------------------*/
 
 /* Tasks-list */
-#main ul.tasks {background-color: #fff; border-top:1px solid #ddd;margin-bottom:18px;}
+#main ul.tasks {background-color: #fff; border-top:1px solid #ddd;margin: 0 -19px 18px -19px; padding: 0; }
 #main ul.tasks-completed {margin-bottom:0;}
 #main ul.tasks li {position:relative;z-index:1;border-bottom:1px solid #ddd;padding:0;background:none;}
 #main ul.tasks li:hover {z-index:2;}
 
 /* Tasks-list - Title */
-#main ul.tasks li { position: relative; }
+#main ul.tasks li { position: relative; list-style-type: none;}
 #main ul.tasks li.task:hover { background-color: #f6f6f6; }
 #main ul.tasks li .drag { position: relative; float: left; height: 32px; width: 15px; background: url(../images/drag.png) 0 0 no-repeat; cursor: move; }
 #main ul.tasks li .drag:hover { background-position: 0 -32px; }
 #main ul.tasks li .drag .spinner { display: none; position: absolute; top: 0; left: -10px; width: 25px; height: 100%; background-position: 5px 9px; background-image: url(../images/ajax-loader.gif); background-repeat: no-repeat; background-color: #fff; cursor: default; }
 #main ul.tasks li:hover .drag .spinner { background-color: #f6f6f6; }
-#main ul.tasks li .progressbtn { float: left; margin: 0 6px 0 0; }
+#main ul.tasks li .progressbtn { float: left; margin: 0 6px 0 0; width: 26px; height: 32px; }
 #main ul.tasks li .progressbtn a { float: left; width: 26px; height: 32px; background-position: 50% 50%; background-repeat: no-repeat; }
 #main ul.tasks li .progressbtn a.progress-start { background-image: url(../images/btn-start.png); }
 #main ul.tasks li .progressbtn a.progress-stop { background-image: url(../images/btn-stop.png); }
 #main ul.tasks li .task-id { float: left; width: 55px; height: 18px; margin: 7px 6px 0 0; -moz-border-radius: 3px; border-radius: 3px; line-height: 18px; text-align: center; font-style: italic; color: #fff; font-size: 0.83em; font-family: Verdana,Geneva,Kalimati,Tahoma,sans-serif;  }
-#main ul.tasks li .status-open { background-color: #5a9400; }
+#main ul.tasks li .status-pending { background-color: #5a9400;}
+#main ul.tasks li .status-open,
 #main ul.tasks li .status-reopen { background-color: #aa0505; }
+#main ul.tasks li .status-development { background-color: #aa0505; }
+#main ul.tasks li .status-completed,
+#main ul.tasks li .status-rejected { background-color: #000; }
 #main ul.tasks li .status-closed { background-color: #a2a2a2; }
-#main ul.tasks li .status-solved { background-color: #000; }
 #main ul.tasks li .priority { float: left; margin: 0 6px 0 0; }
 #main ul.tasks li .priority a { float: left; width: 26px; height: 32px; background-position: 50% 50%; background-repeat: no-repeat; background-image: url(../images/ico-star-off.png); }
 #main ul.tasks li .priority a.imp { background-image: url(../images/ico-star-on.png); }
-#main ul.tasks li h5 { float: left;  margin: 0; padding: 7px 0 0; font-size: 12px; line-height: 18px; width: 520px; height: 18px; overflow: hidden; font-weight: normal; }
+#main ul.tasks li h5 { float: left;  margin: 0; padding: 7px 0 0; font-size: 12px; line-height: 18px; width: 396px; height: 18px; overflow: hidden; font-weight: normal; }
 #main ul.tasks li h5 a { display: block; color: #000; }
 #main ul.tasks li h5 a:hover { color: #29A9E0; text-decoration: none; }
 #main ul.tasks li:hover h5 { height: auto; padding-bottom: 7px; }
@@ -253,7 +296,7 @@ pre {
 #main ul.tasks li .completion a { float: left; width: 26px; height: 32px; background-position: 50% 50%; background-repeat: no-repeat; background-image: url(../images/ico-unchecked.png); }
 #main ul.tasks li .completion a.complete { background-image: url(../images/ico-checked.png); }
 #main ul.tasks li .options { position: absolute; bottom: -25px; left: -999em;  }
-#main ul.tasks li .options .actions { float: left; background: #02659e url(../images/bg_task-options.png) 0 100% repeat-x; height: 26px; margin: 0; border-bottom-right-radius: 5px; -moz-border-radius-bottomright: 5px;
+#main ul.tasks li .options .actions { float: left; background: #02659e url(../images/bg_task-options.png) 0 100% repeat-x; height: 26px; margin: 0; padding: 0; border-bottom-right-radius: 5px; -moz-border-radius-bottomright: 5px;
 border-bottom-left-radius: 5px;	-moz-border-radius-bottomleft: 5px;}
 #main ul.tasks li .options .actions li { float: left; background-image: url(../images/bg_task-options-sep.png); background-position: 0 100%; background-repeat: no-repeat; }
 #main ul.tasks li .options .actions li:first-child { background: none;  }
@@ -262,12 +305,13 @@ border-bottom-left-radius: 5px;	-moz-border-radius-bottomleft: 5px;}
 #main ul.tasks li .options .actions li.assigntome a { background-image: url(../images/ico-user.png); }
 #main ul.tasks li .options .actions li.add a { background-image: url(../images/ico-add.png); }
 #main ul.tasks li .options .actions li.delete a { background-image: url(../images/ico-delete.png); }
-#main ul.tasks li.task:hover .options { left: 241px; }
+#main ul.tasks li.task:hover .options { left: 131px; }
 
 
 /* 2.2 Formtastic
 -----------------------------------------------------------------------------------------------*/
 
+#left form.formtastic { background: #fff; box-shadow:2px 2px 2px #999; moz-box-shadow:2px 2px 2px #999; webkit-box-shadow:2px 2px 2px #999; padding-top: 10px; margin-top: 10px; }
 form.formtastic, form.formtastic ul, form.formtastic ol, form.formtastic li, form.formtastic fieldset, form.formtastic legend, form.formtastic input, form.formtastic 72, form.formtastic select, form.formtastic p { margin:0; padding:0; }
 form.formtastic fieldset { border:0; }
 form.formtastic em, form.formtastic strong { font-style:normal; font-weight:normal; }
@@ -275,7 +319,8 @@ form.formtastic ol, form.formtastic ul { list-style:none; }
 form.formtastic abbr, form.formtastic acronym { border:0; font-variant:normal; }
 form.formtastic input, form.formtastic textarea, form.formtastic select { font-family:inherit; font-size:inherit; font-weight:inherit; }
 form.formtastic input, form.formtastic textarea, form.formtastic select { font-size:100%; }
-form.formtastic legend { white-space:normal; color:#000; }
+form.formtastic legend { white-space:normal; color:#000; font-size: 14px; }
+form.formtastic legend span { padding-left: 10px; }
 
 
 /* SEMANTIC ERRORS
@@ -286,10 +331,10 @@ form.formtastic ul.errors li { padding:0; border:none; display:list-item; }
 
 /* FIELDSETS & LISTS
 --------------------------------------------------------------------------------------------------*/
-form.formtastic fieldset { overflow:auto; } /* clearing contained floats */
+form.formtastic fieldset { overflow:auto; padding: 0; margin: 0; } /* clearing contained floats */
 form.formtastic fieldset.inputs { }
 form.formtastic fieldset.buttons { padding-left:25%; }
-form.formtastic fieldset ol { }
+form.formtastic fieldset ol { padding: 0; }
 form.formtastic fieldset.buttons li { float:left; padding-right:0.5em; }
 
 /* INPUT LIs
@@ -303,7 +348,7 @@ form.formtastic fieldset > ol > li.error { }
 
 /* LABELS
 --------------------------------------------------------------------------------------------------*/
-form.formtastic fieldset > ol > li label { display:block; width:25%; float:left; padding-top:.2em; }
+form.formtastic fieldset > ol > li label { display:block; width:23%; margin-right: 2%; float:left; padding-top:.2em; text-align: right; }
 form.formtastic fieldset > ol > li > li label { line-height:100%; padding-top:0; }
 form.formtastic fieldset > ol > li > li label input { line-height:100%; vertical-align:middle; margin-top:-0.1em;}
 
@@ -338,7 +383,24 @@ form.formtastic fieldset > ol > li.numeric input,
 form.formtastic fieldset > ol > li.email input,
 form.formtastic fieldset > ol > li.url input,
 form.formtastic fieldset > ol > li.phone input,
-form.formtastic fieldset > ol > li.search input { width:72%; }
+form.formtastic fieldset > ol > li.search input { width:71%; border: 1px solid #666; background-color: #FCFCFC;}
+
+form.formtastic fieldset > ol > li.string input:hover, 
+form.formtastic fieldset > ol > li.password input:hover, 
+form.formtastic fieldset > ol > li.numeric input:hover,
+form.formtastic fieldset > ol > li.email input:hover,
+form.formtastic fieldset > ol > li.url input:hover,
+form.formtastic fieldset > ol > li.phone input:hover,
+form.formtastic fieldset > ol > li.search input:hover,
+form.formtastic fieldset > ol > li.string input:focus, 
+form.formtastic fieldset > ol > li.password input:focus, 
+form.formtastic fieldset > ol > li.numeric input:focus,
+form.formtastic fieldset > ol > li.email input:focus,
+form.formtastic fieldset > ol > li.url input:focus,
+form.formtastic fieldset > ol > li.phone input:focus,
+form.formtastic fieldset > ol > li.search input:focus,
+form.formtastic fieldset > ol > li.text textarea:hover,
+form.formtastic fieldset > ol > li.text textarea:focus { border: 1px solid #333; background-color: #FFF;}
 
 form.formtastic fieldset > ol > li.string input[size], 
 form.formtastic fieldset > ol > li.password input[size], 
@@ -346,12 +408,12 @@ form.formtastic fieldset > ol > li.numeric input[size],
 form.formtastic fieldset > ol > li.email input[size],
 form.formtastic fieldset > ol > li.url input[size],
 form.formtastic fieldset > ol > li.phone input[size],
-form.formtastic fieldset > ol > li.search input[size] { width:auto; max-width:72%; }
+form.formtastic fieldset > ol > li.search input[size] { width:auto; max-width:71%; }
 
 
 /* TEXTAREA OVERRIDES
 --------------------------------------------------------------------------------------------------*/
-form.formtastic fieldset > ol > li.text textarea { width:72% !important; }
+form.formtastic fieldset > ol > li.text textarea { width:72% !important; border: 1px solid #666; background-color: #FCFCFC; }
 form.formtastic fieldset > ol > li.text textarea[cols] { width:auto; max-width:72%; }
 
 
@@ -381,7 +443,7 @@ form.formtastic fieldset > ol > li.check_boxes { }
 form.formtastic fieldset > ol > li.check_boxes fieldset { overflow:visible; }
 form.formtastic fieldset > ol > li.check_boxes fieldset ol { margin-bottom:-0.5em; }
 form.formtastic fieldset > ol > li.check_boxes fieldset ol li { margin:0.1em 0 0.5em 0; overflow:visible; }
-form.formtastic fieldset > ol > li.check_boxes fieldset ol li label { float:none; width:100%; }
+form.formtastic fieldset > ol > li.check_boxes fieldset ol li label { float:none; width:100%; text-align: left; }
 form.formtastic fieldset > ol > li.check_boxes fieldset ol li label input { margin-right:0.2em; }
 
 
@@ -398,6 +460,11 @@ form.formtastic fieldset > ol > li.datetime fieldset ol li label { display:none;
 form.formtastic fieldset > ol > li.date fieldset ol li label input, 
 form.formtastic fieldset > ol > li.time fieldset ol li label input, 
 form.formtastic fieldset > ol > li.datetime fieldset ol li label input { display:inline; margin:0; padding:0;  }
+
+/* BUTTONS
+--------------------------------------------------------------------------------------------------*/
+
+form.formtastic .buttons input { font-size: 16px; }
 
 /* 3. INDIVIDUAL PAGES
 -----------------------------------------------------------------------------------------------

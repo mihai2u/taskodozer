@@ -1,8 +1,53 @@
-<div class="task">
-<span class="status <%= task.status %>"><%= task.status %></span>
-<span class="priority <%= task.priority %>"><%= task.priority %></span>
-<%= link_to task.longname, project_task_path(@project,task) %>
-<span class="assignee">Assignee: <strong><%= task.assignee %></strong></span>
-<span class="author">Opener: <strong><%= task.user.username %></strong></span>
-<span class="created_at"><%= time_ago_in_words(task.created_at) + " ago" %></span>
-</div>
+  <li id="task-<%= task.id %>" class="task">
+    <span class="drag"><span class="spinner"></span></span>
+    <div class="progressbtn">
+      <% if task.assigned_user == current_user %>
+        <% if task.status == 'pending' %>
+          <%= link_to " ", project_task_path(task.project, task, :status => 'development'), :method => :put, :class => "progress-start", :title => "Start working" %>
+        <% elsif task.status == 'development' %>
+          <%= link_to " ", project_task_path(task.project, task, :status => 'pending'), :method => :put, :class => "progress-stop", :title => "Stop working" %>
+        <% end %>
+      <% end %>
+      <a style="display:none" title="Stop working" href="#" class="progress-stop"></a>
+    </div>
+    <div title="<% if task.status == "development" %><%= task.assignee + ' is working on it' %><% else %><%= "Status: " + task.status %><% end %>" class="task-id status-<%= task.status %>">
+      #<span><%= task.id %></span>
+    </div>
+    <div class="priority">
+      <% if task.priority == 'high' %>
+        <%= link_to " ", project_task_path(task.project, task, :priority => 'medium'), :method => :put, :class => "imp", :title => "Set priority: medium" %>
+      <% else %>
+        <%= link_to " ", project_task_path(task.project, task, :priority => 'high'), :method => :put, :title => "Set priority: high" %>
+      <% end %>
+    </div>
+    <h5><%= link_to task.name, project_task_path(task.project,task) %></h5>      
+    <div class="completion">
+      <% if task.status == "completed" or task.status == "rejected" %>
+        <%= link_to " ", project_task_path(task.project, task, :status => 'pending'), :method => :put, :class => "complete", :title => "Re-open task" %>
+      <% else %>
+        <%= link_to " ", project_task_path(task.project, task, :status => 'completed'), :method => :put, :title => "Mark as resolved" %>
+      <% end %>
+    </div>
+    <div class="options-above"></div>
+    <div class="options">
+      <div class="actions-wrapper">
+        <ul class="actions">
+          <% unless task.assigned_user == current_user || task.status == "completed" || task.status == "rejected" %>
+            <li class="assigntome"><%= link_to "Assign to me", project_task_path(task.project, task, :assigntome => true), :method => :put, :title => "Assign to me" %></li>
+          <% end %>
+          <li class="add">
+            <% if !(task.status == "completed" or task.status == "rejected") %>
+              <% if task.assigned_user == current_user and  %>
+                <a title="Add to Today" href="#">Add to Today</a>
+              <% else %>
+                <a title="Assing to me and Add to Today" href="#">Add to Today</a>
+              <% end %>
+            <% end %>
+          </li>
+          <% if can? :manage, Task %>
+            <li class="delete"><%= link_to "Delete", project_task_path(task.project,task), :confirm => 'Are you sure?', :method => :delete %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </li>

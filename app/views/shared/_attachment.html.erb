@@ -1,4 +1,4 @@
-<div class="<%= mymodel.attachment_content_type %>">
+<div class="attachment <%= mymodel.attachment_content_type %>">
   <% if mymodel.attachment_content_type.include? 'image' %>
     <%= link_to (image_tag mymodel.attachment_url(:thumb).to_s), mymodel.attachment_url %>
   <% else %>

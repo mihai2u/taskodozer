@@ -18,7 +18,10 @@
 <% end %>
 
 <div class="meta">
-  <p>by <%= @task.user.username %> created this on <%= @task.created_at.to_s(:short_date) %>.</p>
+  <div class="author"><%= @task.user.username %></div>
+  <div class="date">created on <%= @task.created_at.to_s(:short_date) %></div>
+</div>
+<div class="attributes">
   <dl>
     <dt>Status:</dt>
     <dd><%= @task.status %></dd>
@@ -30,28 +33,33 @@
     <dd><%= @task.duration %></dd>
 </div>
 <div class="content">
-  <%= @task.description %>
+  <p><%= @task.description %></p>
 </div>
 
 <% unless @task.attachment.blank? %>
-  <%= render :partial => "shared/attachment", :locals => { :mymodel => @task } %>
+  <div class="attachments">
+    <%= render :partial => "shared/attachment", :locals => { :mymodel => @task } %>
+  </div>
 <% end %>
 
 <% unless @task.parent_id.blank? %>
 <h3>Parent task:</h3>
+<ul class="tasks">
 <%= render @task.parent %>
+</ul>
 <% end %>
 
 <% unless @task.tasks.blank? %>
 <h3>Child tasks:</h3>
+<ul class="tasks">
 <%= render @task.tasks %>
+</ul>
 <% end %>
 
 <h3>Notes:</h3>
 <%= render @notes %>
 
 <div class="notes_new">
-  <p><%= current_user.username %></p>
   <%= semantic_form_for @task, :url => project_task_path(@project, @task), :html => { :multipart => true } do |f| %>
     <%= f.inputs :name => "Update task attributes" do %>
         <%= f.input :status, :collection => Task::STATUSES, :include_blank => false %>

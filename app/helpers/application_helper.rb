@@ -28,4 +28,10 @@ def client?
     user_signed_in? && current_user.client?
 end
 
+def project_completion(project)
+    tasks = project.tasks.all.count
+    tasks_closed = project.tasks.closed.all.count
+    percentage = (tasks != 0) ? ((tasks_closed*1.0/tasks)*100).to_i : 0
+end
+
 end

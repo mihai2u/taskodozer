@@ -1,15 +1,25 @@
-<div class="comment <%= "secret" if comment.secret? %>" id="comment-<%= comment.id %>">
-  <% if (comment.created_at > (Time.now - 15.minutes)) && (current_user == comment.user) %> 
-  	<%= link_to "(Edit)", edit_comment_project_topic_path(comment.topic.discussion.project, comment.topic, comment) %>  <span class="note">(for another <%= ((15.minutes - (Time.now - comment.created_at)) / 60).to_i %> minutes)</span>
-  <% elsif can? :manage, Comment %>
-    <%= link_to "(Edit)", edit_comment_project_topic_path(comment.topic.discussion.project, comment.topic, comment) %>
-  <% end %>
-  <p class="meta"><%= comment.user.username %> on <%= comment.created_at.to_s(:short_time) %> said:</p>
-  <div class="content">
-  <%= comment.content %>
+<div class="note <%= "secret" if comment.secret? %>" id="comment-<%= comment.id %>">
+  <div class="meta">
+    <div class="author">
+      <%= comment.user.username %>
+      <% if (comment.created_at > (Time.now - 15.minutes)) && (current_user == comment.user) %> 
+        <%= link_to "(Edit)", edit_comment_project_topic_path(comment.topic.discussion.project, comment.topic, comment) %>  <span class="note">(for another <%= ((15.minutes - (Time.now - comment.created_at)) / 60).to_i %> minutes)</span>
+      <% elsif can? :manage, Comment %>
+        <%= link_to "(Edit)", edit_comment_project_topic_path(comment.topic.discussion.project, comment.topic, comment) %>
+      <% end %>
+    </div>
+    <div class="date"><%= comment.created_at.to_s(:short_time) %></div>
   </div>
-  <% unless comment.attachment.blank? %>
-    <%= render :partial => "shared/attachment", :locals => { :mymodel => comment } %>
-  <% end %>
+  <div class="note-contents">
+    <% unless comment.content.blank? %>
+      <div class="content">
+        <%= comment.content %>
+      </div>
+    <% end %>
+    <% unless comment.attachment.blank? %>
+      <div class="attachments">
+        <%= render :partial => "shared/attachment", :locals => { :mymodel => comment } %>
+      </div>
+    <% end %>
+  </div>
 </div>
-<hr />

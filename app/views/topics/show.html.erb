@@ -34,20 +34,24 @@
   </ul>
 <% end %>
 
-<p class="meta"><%= @topic.user.username %> posted this in <%= link_to @topic.discussion.title, project_discussion_path(@topic.discussion.project, @topic.discussion) %> on <%= @topic.created_at.to_s(:short) %></p>
+<div class="meta">
+  <div class="author"><%= @topic.user.username %> posted this in <%= link_to @topic.discussion.title, project_discussion_path(@topic.discussion.project, @topic.discussion) %></div>
+  <div class="date"><%= @topic.created_at.to_s(:short) %></div>
+</div>
 <div class="content">
-<%= @topic.content %>
+  <%= @topic.content %>
 </div>
 <% unless @topic.attachment.blank? %>
+<div class="attachments">
   <%= render :partial => "shared/attachment", :locals => { :mymodel => @topic } %>
+</div>
 <% end %>
 
-<hr />
+<h4>Comments</h4>
 
 <%= render @comments %>
 
 <div class="comments_new">
-  <p><%= current_user.username %></p>
   <%= semantic_form_for @comment, :url => comments_project_topic_path(@project, @topic), :html => { :multipart => true } do |f| %>
     <%= f.inputs do %>
       <%= f.input :content, :label => "Leave a comment&hellip;", :input_html => { :class => 'autogrow', :rows => 6  } %>

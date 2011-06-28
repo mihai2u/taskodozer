@@ -17,6 +17,7 @@ class Task < ActiveRecord::Base
   scope :development, :conditions => { :status => "development" }
   scope :completed, :conditions => { :status => "completed" }
   scope :rejected, :conditions => { :status => "rejected" }
+  scope :closed, :conditions => ["(status = 'completed') OR (status = 'rejected')"]
   scope :mine, lambda { |my_id| { :conditions => ["assigned_user_id = ?", my_id] } }
   scope :reported, lambda { |my_id| { :conditions => ["user_id = ?", my_id] } }
 
@@ -47,7 +48,7 @@ class Task < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :description
 
-  PRIORITIES = %w[low medium high]
+  PRIORITIES = %w[medium high]
   STATUSES = %w[pending development completed rejected]
 
   before_create :setup_task

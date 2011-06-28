@@ -14,3 +14,35 @@
 		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 	</p>
 <% end %>
+
+<% if user_signed_in? %>
+	
+	<% if current_user.client? %>
+		<% @projects.each do |project| 
+			project_topics = project.topics.limit(3) %>
+				<h3><%= link_to project.name, project %> (<%= project_completion(project) %>% completed)</h3>
+				<div class="completion-bar"><div class="fill" style="width:<%= project_completion(project) %>%;"></div></div>
+				<div class="topics">
+					<% if project_topics.length == 0 %>
+						<p>No topics have been started. <%= link_to "Start one now", new_project_topic_path(project) %></p>
+					<% else %>
+						<%= render project_topics %>
+						<p class="seeall"><%= link_to "See all discussion topics...", project_discussions_path(project) %> or <%= link_to "create a new topic", new_project_topic_path(project) %></p>
+					<% end %>
+				</div>
+		<% end %>
+	<% else %>
+		<% @projects.each do |project| 
+			project_tasks = project.tasks.pending.mine(current_user) + project.tasks.development.mine(current_user) %>
+			<% if project_tasks.length > 0 %>
+				<h3><%= link_to project.name, project %></h3>
+				<ul class="tasks">
+					<%= render project_tasks %>
+				</ul>
+			<% end %>
+		<% end %>
+	<% end %>
+
+<% else %>
+	<p>You need to be logged in to do anything here.</p>
+<% end %>

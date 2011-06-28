@@ -9,7 +9,7 @@ class TasksController < ApplicationController
       when "all" then @project.tasks
       when "pending" then @project.tasks.pending
       when "development" then @project.tasks.development
-      when "completed" then @project.tasks.pending
+      when "completed" then @project.tasks.completed
       when "rejected" then @project.tasks.rejected
       when "reported" then @project.tasks.reported(current_user)
       else @project.tasks.pending.mine(current_user) + @project.tasks.development.mine(current_user)
@@ -72,6 +72,9 @@ class TasksController < ApplicationController
     assignee = @task.assigned_user_id
     duration = @task.duration
     task_update = Hash.new
+    @task.update_attributes(:assigned_user_id => current_user.id) unless params[:assigntome].blank?
+    @task.update_attributes(:priority => params[:priority]) unless params[:priority].blank?
+    @task.update_attributes(:status => params[:status]) unless params[:status].blank?
     if @task.update_attributes(params[:task])
       task_update[:status] = @task.status if status != @task.status
       task_update[:priority] = @task.priority if priority != @task.priority
@@ -95,7 +98,7 @@ class TasksController < ApplicationController
       notifiers.each do |user|
         UserMailer.update_task_notification(user, @task.notes.last).deliver unless @task.notes.last.content.blank? && @task.notes.last.updates.blank? && @task.notes.last.attachment.blank?
       end
-      redirect_to project_task_path(@project,@task), :notice  => "Successfully updated task."
+      redirect_to request.referer, :notice  => "Successfully updated task."
     else
       render :action => 'edit'
     end
