@@ -1,3 +1,28 @@
+/**********************************************************************************************
+
+	CSS on Sails
+	Title: Toduh
+	Author: XHTMLized (http://www.xhtmlized.com/)
+	Date: August 2010
+
+***********************************************************************************************
+
+	1. BASE
+
+	2. LAYOUT
+			2.1 Task layout
+			2.2 Formtastic
+			
+	3. INDIVIDUAL PAGES
+			2.1 Homepage
+
+***********************************************************************************************/
+
+
+/* 1. BASE
+-----------------------------------------------------------------------------------------------
+===============================================================================================*/
+
 body {font-family: "Lucida Grande", verdana, arial, helvetica, sans-serif; color: #000; background-color: #d4d4d4; margin: 0; padding: 0; font-size: 0.8em; min-width: 900px}
 a:link, a:visited {color: #0054ff}
 a:hover {background-color: #0054ff; color: #fff}
@@ -193,21 +218,63 @@ pre {
 #right span.user { white-space: nowrap; }
 .secret { background: #ddd; }
 
-/* Formtastic */
-/* -------------------------------------------------------------------------------------------------
-
-It's *strongly* suggested that you don't modify this file.  Instead, load a new stylesheet after
-this one in your layouts (eg formtastic_changes.css) and override the styles to suit your needs.
-This will allow you to update formtastic.css with new releases without clobbering your own changes.
-
-This stylesheet forms part of the Formtastic Rails Plugin
-(c) 2008 Justin French
-
---------------------------------------------------------------------------------------------------*/
+/* 2. LAYOUT
+-----------------------------------------------------------------------------------------------
+===============================================================================================*/
 
 
-/* NORMALIZE AND RESET - obviously inspired by Yahoo's reset.css, but scoped to just form.formtastic
---------------------------------------------------------------------------------------------------*/
+/* 1 Task Template
+-----------------------------------------------------------------------------------------------*/
+
+/* Tasks-list */
+#main ul.tasks {background-color: #fff; border-top:1px solid #ddd;margin-bottom:18px;}
+#main ul.tasks-completed {margin-bottom:0;}
+#main ul.tasks li {position:relative;z-index:1;border-bottom:1px solid #ddd;padding:0;background:none;}
+#main ul.tasks li:hover {z-index:2;}
+
+/* Tasks-list - Title */
+#main ul.tasks li { position: relative; }
+#main ul.tasks li.task:hover { background-color: #f6f6f6; }
+#main ul.tasks li .drag { position: relative; float: left; height: 32px; width: 15px; background: url(../images/drag.png) 0 0 no-repeat; cursor: move; }
+#main ul.tasks li .drag:hover { background-position: 0 -32px; }
+#main ul.tasks li .drag .spinner { display: none; position: absolute; top: 0; left: -10px; width: 25px; height: 100%; background-position: 5px 9px; background-image: url(../images/ajax-loader.gif); background-repeat: no-repeat; background-color: #fff; cursor: default; }
+#main ul.tasks li:hover .drag .spinner { background-color: #f6f6f6; }
+#main ul.tasks li .progressbtn { float: left; margin: 0 6px 0 0; }
+#main ul.tasks li .progressbtn a { float: left; width: 26px; height: 32px; background-position: 50% 50%; background-repeat: no-repeat; }
+#main ul.tasks li .progressbtn a.progress-start { background-image: url(../images/btn-start.png); }
+#main ul.tasks li .progressbtn a.progress-stop { background-image: url(../images/btn-stop.png); }
+#main ul.tasks li .task-id { float: left; width: 55px; height: 18px; margin: 7px 6px 0 0; -moz-border-radius: 3px; border-radius: 3px; line-height: 18px; text-align: center; font-style: italic; color: #fff; font-size: 0.83em; font-family: Verdana,Geneva,Kalimati,Tahoma,sans-serif;  }
+#main ul.tasks li .status-open { background-color: #5a9400; }
+#main ul.tasks li .status-reopen { background-color: #aa0505; }
+#main ul.tasks li .status-closed { background-color: #a2a2a2; }
+#main ul.tasks li .status-solved { background-color: #000; }
+#main ul.tasks li .priority { float: left; margin: 0 6px 0 0; }
+#main ul.tasks li .priority a { float: left; width: 26px; height: 32px; background-position: 50% 50%; background-repeat: no-repeat; background-image: url(../images/ico-star-off.png); }
+#main ul.tasks li .priority a.imp { background-image: url(../images/ico-star-on.png); }
+#main ul.tasks li h5 { float: left;  margin: 0; padding: 7px 0 0; font-size: 12px; line-height: 18px; width: 520px; height: 18px; overflow: hidden; font-weight: normal; }
+#main ul.tasks li h5 a { display: block; color: #000; }
+#main ul.tasks li h5 a:hover { color: #29A9E0; text-decoration: none; }
+#main ul.tasks li:hover h5 { height: auto; padding-bottom: 7px; }
+#main ul.tasks li .comments { float: left; padding: 0 22px 0 0; margin: 0 6px 0 0; width: 30px; line-height: 32px; text-align: right; background: url(../images/ico-comments.png) 100% 50% no-repeat; }
+#main ul.tasks li .comments strong { display: none;  }
+#main ul.tasks li .completion { float: right; margin-right: 6px; display: inline; width: 26px; }
+#main ul.tasks li .completion a { float: left; width: 26px; height: 32px; background-position: 50% 50%; background-repeat: no-repeat; background-image: url(../images/ico-unchecked.png); }
+#main ul.tasks li .completion a.complete { background-image: url(../images/ico-checked.png); }
+#main ul.tasks li .options { position: absolute; bottom: -25px; left: -999em;  }
+#main ul.tasks li .options .actions { float: left; background: #02659e url(../images/bg_task-options.png) 0 100% repeat-x; height: 26px; margin: 0; border-bottom-right-radius: 5px; -moz-border-radius-bottomright: 5px;
+border-bottom-left-radius: 5px;	-moz-border-radius-bottomleft: 5px;}
+#main ul.tasks li .options .actions li { float: left; background-image: url(../images/bg_task-options-sep.png); background-position: 0 100%; background-repeat: no-repeat; }
+#main ul.tasks li .options .actions li:first-child { background: none;  }
+#main ul.tasks li .options .actions li a { float: left; padding: 0 8px 0 24px; line-height: 26px; background-position: 8px 50%; background-repeat: no-repeat; color: #fff; }
+#main ul.tasks li .options .actions li:first-child a { padding-left: 26px; background-position: 10px 50%; }
+#main ul.tasks li .options .actions li.assigntome a { background-image: url(../images/ico-user.png); }
+#main ul.tasks li .options .actions li.add a { background-image: url(../images/ico-add.png); }
+#main ul.tasks li .options .actions li.delete a { background-image: url(../images/ico-delete.png); }
+#main ul.tasks li.task:hover .options { left: 241px; }
+
+
+/* 2.2 Formtastic
+-----------------------------------------------------------------------------------------------*/
 
 form.formtastic, form.formtastic ul, form.formtastic ol, form.formtastic li, form.formtastic fieldset, form.formtastic legend, form.formtastic input, form.formtastic textarea, form.formtastic select, form.formtastic p { margin:0; padding:0; }
 form.formtastic fieldset { border:0; }
