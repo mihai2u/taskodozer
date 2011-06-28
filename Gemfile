@@ -7,11 +7,11 @@ gem 'rails', '3.0.7'
 
 # gem 'sqlite3'
 gem 'mysql'
+gem 'jquery-rails'
 gem 'devise'
 gem 'cancan'
 gem 'nifty-generators'
 gem 'formtastic', "1.2.4.beta2"
-gem 'jquery-rails'
 
 # File uploads
 gem 'carrierwave', :git => 'git://github.com/jnicklas/carrierwave.git'

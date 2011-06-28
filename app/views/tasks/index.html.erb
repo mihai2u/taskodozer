@@ -1,4 +1,8 @@
-<% title "Tasks" %>
+<% if @filter.blank?
+     title "My active tasks"
+   else
+     title "Tasks / #{@filter}" 
+   end %>
 
 <% content_for :sidebar do %>
   <ul class="actions">
@@ -6,7 +10,14 @@
   </ul>
   <h2>Filter tasks</h2>
   <ul>
-    <li><%= link_to "My Tasks", project_tasks_path(@project) %></li>
+    <% if @tasks_nb_mine > 0 %><li><%= link_to_unless_current "My Active Tasks", project_tasks_path(@project) %> (<%= @tasks_nb_mine %>)</li><% end %>
+    <% if @tasks_nb_reported > 0 %><li><%= link_to_unless_current "Opened by me", filter_project_tasks_path(@project, "reported") %> (<%= @tasks_nb_reported %>)</li><% end %>
+    <% if @tasks_nb_all > 0 %><li><%= link_to_unless_current "All Tasks", filter_project_tasks_path(@project, "all") %> (<%= @tasks_nb_all %>)</li><% end %>
+    <% if @tasks_nb_pending > 0 %><li><%= link_to_unless_current "Pending", filter_project_tasks_path(@project, "pending") %> (<%= @tasks_nb_pending %>)</li><% end %>
+    <% if @tasks_nb_development > 0 %><li><%= link_to_unless_current "In development", filter_project_tasks_path(@project, "development") %> (<%= @tasks_nb_development %>)</li><% end %>
+    <% if @tasks_nb_completed > 0 %><li><%= link_to_unless_current "Completed", filter_project_tasks_path(@project, "completed") %> (<%= @tasks_nb_completed %>)</li><% end %>
+    <% if @tasks_nb_rejected > 0 %><li><%= link_to_unless_current "Rejected", filter_project_tasks_path(@project, "rejected") %> (<%= @tasks_nb_rejected %>)</li><% end %>
+    
   </ul>
 <% end %>
 

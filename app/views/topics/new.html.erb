@@ -1,10 +1,11 @@
 <% title "New Topic" %>
 
-<%= semantic_form_for @topic, :url => project_topics_path(@project) do |f| %>
+<%= semantic_form_for @topic, :url => project_topics_path(@project), :html => { :multipart => true } do |f| %>
   <%= f.inputs do %>
     <%= f.input :discussion, :collection => @project.discussions, :label => "Category" %>
     <%= f.input :title, :label => "Topic title" %>
     <%= f.input :content, :label => "Description" %>
+    <%= f.input :attachment, :as => :file %> 
     <%= f.input :subscribers, :collection => @subscribers, :label => "Subscribers", :as => :check_boxes %>
   <% end %>
   <%= f.buttons %>

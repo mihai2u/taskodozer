@@ -4,7 +4,37 @@ class TasksController < ApplicationController
   before_filter :init_project
 
   def index
-    @tasks = @project.tasks
+    @filter = params[:filter]
+    @tasks = case @filter
+      when "all" then @project.tasks
+      when "pending" then @project.tasks.pending
+      when "development" then @project.tasks.development
+      when "completed" then @project.tasks.pending
+      when "rejected" then @project.tasks.rejected
+      when "reported" then @project.tasks.reported(current_user)
+      else @project.tasks.pending.mine(current_user) + @project.tasks.development.mine(current_user)
+    end
+
+    if current_user.client?
+      @tasks_nb_mine = @project.tasks.pending.mine(current_user).public.all.count + @project.tasks.development.mine(current_user).public.all.count
+      @tasks_nb_reported = @project.tasks.reported(current_user).public.all.count
+      @tasks_nb_all = @project.tasks.public.all.count
+      @tasks_nb_pending = @project.tasks.pending.public.all.count
+      @tasks_nb_development = @project.tasks.development.public.all.count
+      @tasks_nb_completed = @project.tasks.completed.public.all.count
+      @tasks_nb_rejected = @project.tasks.rejected.public.all.count
+    else
+      @tasks_nb_mine = @project.tasks.pending.mine(current_user).all.count + @project.tasks.development.mine(current_user).all.count
+      @tasks_nb_reported = @project.tasks.reported(current_user).all.count
+      @tasks_nb_all = @project.tasks.public.all.count
+      @tasks_nb_pending = @project.tasks.pending.all.count
+      @tasks_nb_development = @project.tasks.development.all.count
+      @tasks_nb_completed = @project.tasks.completed.all.count
+      @tasks_nb_rejected = @project.tasks.rejected.all.count
+    end
+    if current_user.client?
+      @tasks = @tasks.public unless @tasks == [] 
+    end
   end
 
   def show
@@ -40,11 +70,13 @@ class TasksController < ApplicationController
     status = @task.status
     priority = @task.priority
     assignee = @task.assigned_user_id
+    duration = @task.duration
     task_update = Hash.new
     if @task.update_attributes(params[:task])
       task_update[:status] = @task.status if status != @task.status
       task_update[:priority] = @task.priority if priority != @task.priority
       task_update[:assigned_user_id] = @task.assigned_user_id if assignee != @task.assigned_user_id
+      task_update[:added_time] = @task.duration - duration if @task.duration - duration != 0
       if task_update != ""
         last_note = @task.notes.last
         if !last_note.blank? && last_note.updates.blank?

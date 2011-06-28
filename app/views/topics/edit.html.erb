@@ -1,10 +1,17 @@
 <% title "Edit Topic" %>
 
-<%= semantic_form_for @topic, :url => project_topic_path(@project, @topic) do |f| %>
+<%= semantic_form_for @topic, :url => project_topic_path(@project, @topic), :html => { :multipart => true } do |f| %>
   <%= f.inputs do %>
     <%= f.input :discussion, :collection => @discussions, :label => "Category" %>
     <%= f.input :title, :label => "Topic title" %>
     <%= f.input :content, :label => "Description" %>
+    <%= f.input :attachment, :label => "Add/Replace Attachment", :as => :file %>
+    <% unless @topic.attachment.blank? %>
+    <li>
+      <%= link_to @topic.attachment_file_name, @topic.attachment_url %> (<%= number_to_human_size(@topic.attachment_file_size) %>)
+    </li>
+    <%= f.input :remove_attachment, :as => :boolean %>
+    <% end %>
     <%= f.input :subscribers, :collection => @project.users, :label => "Subscribers", :as => :check_boxes %>
   <% end %>
   <%= f.buttons %>

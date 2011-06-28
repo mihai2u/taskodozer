@@ -7,15 +7,29 @@ class Task < ActiveRecord::Base
   has_many :notes
 
   accepts_nested_attributes_for :notes, :reject_if => :all_blank
-  attr_accessible :name, :description, :status, :duration, :priority, :assigned_user_id, :parent_id, :project_id, :secret, :notes, :note, :notes_attributes, :attachment, :remove_attachment
+  attr_accessible :name, :description, :status, :duration, :add_duration, :priority, :assigned_user_id, :parent_id, :project_id, :secret, :notes, :note, :notes_attributes, :attachment, :remove_attachment
   mount_uploader :attachment, AttachmentUploader
 
   default_scope :order => 'created_at ASC'
 
   scope :public, :conditions => { :secret => 0 }
+  scope :pending, :conditions => { :status => "pending" }
+  scope :development, :conditions => { :status => "development" }
+  scope :completed, :conditions => { :status => "completed" }
+  scope :rejected, :conditions => { :status => "rejected" }
+  scope :mine, lambda { |my_id| { :conditions => ["assigned_user_id = ?", my_id] } }
+  scope :reported, lambda { |my_id| { :conditions => ["user_id = ?", my_id] } }
 
   def secret?
   	secret != 0
+  end
+
+  def add_duration
+    0.0
+  end
+
+  def add_duration=(value)
+    self.duration += value.to_f
   end
 
   def assignee
@@ -53,4 +67,5 @@ class Task < ActiveRecord::Base
       self.attachment_file_name = attachment_url.match(/[\w\s\.\-_]*$/).to_s
     end
   end
+  
 end

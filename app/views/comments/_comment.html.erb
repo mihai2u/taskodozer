@@ -9,13 +9,7 @@
   <%= comment.content %>
   </div>
   <% unless comment.attachment.blank? %>
-  <div class="<%= comment.attachment_content_type %>">
-    <% if comment.attachment_content_type.include? 'image' %>
-      <%= link_to (image_tag comment.attachment_url(:thumb).to_s), comment.attachment_url %>
-    <% else %>
-      <%= link_to comment.attachment_file_name, comment.attachment_url %> (<%= number_to_human_size(comment.attachment_file_size) %>)
-    <% end %>
-  </div>
+    <%= render :partial => "shared/attachment", :locals => { :mymodel => comment } %>
   <% end %>
 </div>
 <hr />

@@ -1,0 +1,8 @@
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/*
+public/uploads/*
+config/database.yml
+config/initializers/amazon_ses.rb
+config/initializers/carrierwave.rb

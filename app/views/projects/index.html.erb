@@ -8,14 +8,14 @@
   <h2>Filter Projects</h2>
   
   <ul>
-    <% if @projects_nb_active > 0 %><li><%= link_to "My Active Projects", projects_path %> (<%= @projects_nb_active %>)</li><% end %>
-    <% if @projects_nb_all > 0 %><li><%= link_to "All", project_filter_path("all") %> (<%= @projects_nb_all %>)</li><% end %>
-    <% if @projects_nb_inquiry > 0 %><li><%= link_to "Inquiry", project_filter_path("inquiry") %> (<%= @projects_nb_inquiry %>)</li><% end %>
-    <% if @projects_nb_upcoming > 0 %><li><%= link_to "Upcoming", project_filter_path("upcoming") %> (<%= @projects_nb_upcoming %>)</li><% end %>
-    <% if @projects_nb_current > 0 %><li><%= link_to "Current", project_filter_path("current") %> (<%= @projects_nb_current %>)</li><% end %>
-    <% if @projects_nb_on_hold > 0 %><li><%= link_to "On Hold", project_filter_path("on_hold") %> (<%= @projects_nb_on_hold %>)</li><% end %>
-    <% if @projects_nb_review > 0 %><li><%= link_to "In Review", project_filter_path("review") %> (<%= @projects_nb_review %>)</li><% end %>
-    <% if @projects_nb_archived > 0 %><li><%= link_to "Archived", project_filter_path("archived") %> (<%= @projects_nb_archived %>)</li><% end %>
+    <% if @projects_nb_active > 0 %><li><%= link_to_unless_current "My Active Projects", projects_path %> (<%= @projects_nb_active %>)</li><% end %>
+    <% if @projects_nb_all > 0 %><li><%= link_to_unless_current "All", project_filter_path("all") %> (<%= @projects_nb_all %>)</li><% end %>
+    <% if @projects_nb_inquiry > 0 %><li><%= link_to_unless_current "Inquiry", project_filter_path("inquiry") %> (<%= @projects_nb_inquiry %>)</li><% end %>
+    <% if @projects_nb_upcoming > 0 %><li><%= link_to_unless_current "Upcoming", project_filter_path("upcoming") %> (<%= @projects_nb_upcoming %>)</li><% end %>
+    <% if @projects_nb_current > 0 %><li><%= link_to_unless_current "Current", project_filter_path("current") %> (<%= @projects_nb_current %>)</li><% end %>
+    <% if @projects_nb_on_hold > 0 %><li><%= link_to_unless_current "On Hold", project_filter_path("on_hold") %> (<%= @projects_nb_on_hold %>)</li><% end %>
+    <% if @projects_nb_review > 0 %><li><%= link_to_unless_current "In Review", project_filter_path("review") %> (<%= @projects_nb_review %>)</li><% end %>
+    <% if @projects_nb_archived > 0 %><li><%= link_to_unless_current "Archived", project_filter_path("archived") %> (<%= @projects_nb_archived %>)</li><% end %>
   </ul>
 
 <% end %>

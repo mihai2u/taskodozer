@@ -38,6 +38,9 @@
 <div class="content">
 <%= @topic.content %>
 </div>
+<% unless @topic.attachment.blank? %>
+  <%= render :partial => "shared/attachment", :locals => { :mymodel => @topic } %>
+<% end %>
 
 <hr />
 

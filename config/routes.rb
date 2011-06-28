@@ -11,6 +11,7 @@ Taskodozer::Application.routes.draw do
   resources :projects, :except => [:destroy] do
     resources :discussions
     resources :tasks do
+      get 'filter/:filter' => "tasks#index", :on => :collection, :as => "filter"
       match 'notes' => "notes#create", :on => :member, :via => :post
       match 'notes/:note_id/edit' => "notes#edit", :on => :member, :via => :get, :as => "edit_note"
       match 'notes/:note_id/' => "notes#update", :on => :member, :as => "update_note"
