@@ -7,7 +7,6 @@
 			2.2 Formtastic
 			
 	3. INDIVIDUAL PAGES
-			2.1 Homepage
 
 ***********************************************************************************************/
 
@@ -399,3 +398,7 @@ form.formtastic fieldset > ol > li.datetime fieldset ol li label { display:none;
 form.formtastic fieldset > ol > li.date fieldset ol li label input, 
 form.formtastic fieldset > ol > li.time fieldset ol li label input, 
 form.formtastic fieldset > ol > li.datetime fieldset ol li label input { display:inline; margin:0; padding:0;  }
+
+/* 3. INDIVIDUAL PAGES
+-----------------------------------------------------------------------------------------------
+===============================================================================================*/
