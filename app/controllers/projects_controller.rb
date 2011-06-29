@@ -81,6 +81,11 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new(params[:project])
     if @project.save
+      unless @project.repository == 0
+        result = `./svncreator.sh #{@project.slug}`
+        @project.repository = "svn://svn@svn.adesigns.eu/#{@project.slug}"
+        @project.save
+      end
       redirect_to @project, :notice => "Successfully created project."
     else
       render :action => 'new'

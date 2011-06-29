@@ -75,12 +75,13 @@ class TasksController < ApplicationController
     @task.update_attributes(:assigned_user_id => current_user.id) unless params[:assigntome].blank?
     @task.update_attributes(:priority => params[:priority]) unless params[:priority].blank?
     @task.update_attributes(:status => params[:status]) unless params[:status].blank?
+    @task.update_attributes(:planned_at => Time.now) unless params[:today].blank?
     if @task.update_attributes(params[:task])
       task_update[:status] = @task.status if status != @task.status
       task_update[:priority] = @task.priority if priority != @task.priority
       task_update[:assigned_user_id] = @task.assigned_user_id if assignee != @task.assigned_user_id
       task_update[:added_time] = @task.duration - duration if @task.duration - duration != 0
-      if task_update != ""
+      unless task_update.blank?
         last_note = @task.notes.last
         if !last_note.blank? && last_note.updates.blank?
           last_note.updates = task_update

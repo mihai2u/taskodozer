@@ -1,4 +1,4 @@
-  <li id="task-<%= task.id %>" class="task">
+  <li id="task-<%= task.id %>" class="task <%= "task-" + task.planned_at_date if ['today','tomorrow','late'].include?(task.planned_at_date) %>">
     <span class="drag"><span class="spinner"></span></span>
     <div class="progressbtn">
       <% if task.assigned_user == current_user %>
@@ -20,7 +20,13 @@
         <%= link_to " ", project_task_path(task.project, task, :priority => 'high'), :method => :put, :title => "Set priority: high" %>
       <% end %>
     </div>
-    <h5><%= link_to task.name, project_task_path(task.project,task) %></h5>      
+    <h5><%= link_to task.name, project_task_path(task.project,task) %></h5> 
+    <div class="date <%= task.planned_at_date %>">
+      <%= task.planned_at_date %>
+      <%= form_for task, :url => project_task_path(task.project, task) do |f| %>
+        <input type="text" value="<%= task.planned_at %>" name="task[planned_at]" id="task_planned_at_<%= task.id %>" class="ui-datepicker">
+      <% end %>
+    </div>     
     <div class="completion">
       <% if task.status == "completed" or task.status == "rejected" %>
         <%= link_to " ", project_task_path(task.project, task, :status => 'pending'), :method => :put, :class => "complete", :title => "Re-open task" %>
@@ -36,11 +42,11 @@
             <li class="assigntome"><%= link_to "Assign to me", project_task_path(task.project, task, :assigntome => true), :method => :put, :title => "Assign to me" %></li>
           <% end %>
           <li class="add">
-            <% if !(task.status == "completed" or task.status == "rejected") %>
-              <% if task.assigned_user == current_user and  %>
-                <a title="Add to Today" href="#">Add to Today</a>
+            <% if !(task.status == "completed" or task.status == "rejected") and task.planned_at_date != 'today' %>
+              <% if task.assigned_user == current_user %>
+                <%= link_to "Add to Today", project_task_path(task.project, task, :today => 'true'), :method => :put, :title => "Add to Today" %>
               <% else %>
-                <a title="Assing to me and Add to Today" href="#">Add to Today</a>
+                <%= link_to "Add to Today", project_task_path(task.project, task, :today => 'true'), :method => :put, :title => "Assing to me and Add to Today" %>
               <% end %>
             <% end %>
           </li>

@@ -7,7 +7,7 @@ class Task < ActiveRecord::Base
   has_many :notes
 
   accepts_nested_attributes_for :notes, :reject_if => :all_blank
-  attr_accessible :name, :description, :status, :duration, :add_duration, :priority, :assigned_user_id, :parent_id, :project_id, :secret, :notes, :note, :notes_attributes, :attachment, :remove_attachment
+  attr_accessible :name, :description, :status, :duration, :add_duration, :priority, :assigned_user_id, :parent_id, :project_id, :secret, :notes, :note, :notes_attributes, :attachment, :remove_attachment, :planned_at
   mount_uploader :attachment, AttachmentUploader
 
   default_scope :order => 'created_at ASC'
@@ -38,6 +38,30 @@ class Task < ActiveRecord::Base
       "Unassigned"
     else
       self.assigned_user.username
+    end
+  end
+
+  def planned_at_date
+    if self.planned_at.blank?
+      "unplanned"
+    else
+      planned_day = self.planned_at.yday
+      planned_year = self.planned_at.year
+      today_day = Time.now.yday
+      today_year = Time.now.year
+      if (planned_year == today_year)
+        if planned_day == today_day
+          "today"
+        elsif planned_day == today_day + 1
+          "tomorrow"
+        elsif planned_day < today_day
+          "late"
+        else
+          self.planned_at.strftime("%b %d")
+        end
+      else
+        self.planned_at.strftime(" %b %d '%y")
+      end
     end
   end
 

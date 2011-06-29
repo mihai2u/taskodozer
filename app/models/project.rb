@@ -6,7 +6,7 @@ class Project < ActiveRecord::Base
   has_many :topics, :through => :discussions
   has_many :tasks
   
-  attr_accessible :name, :slug, :description, :company_id, :status
+  attr_accessible :name, :slug, :description, :company_id, :status, :repository
 
   validates_presence_of :name, :company
   validates_uniqueness_of :name, :slug

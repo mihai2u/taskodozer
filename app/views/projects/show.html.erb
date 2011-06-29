@@ -57,3 +57,9 @@
 <div class="description">
 <%= @project.description %>
 </div>
+<% unless current_user.client? or @project.repository.blank? %>
+<div class="repository">
+  <strong>Repository URL:</strong>
+  <span><%= @project.repository %></span>
+</div>
+<% end %>

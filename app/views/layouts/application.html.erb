@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title>Taskodozer - <%= content_for?(:title) ? yield(:title) : 'Better Management'  %></title>
-	<%= stylesheet_link_tag "default", "prettyPhoto", :cache => true %>
+	<%= stylesheet_link_tag "default", "prettyPhoto", "jquery-ui-1.8.14.custom", :cache => true %>
 	<%= csrf_meta_tag %>
 </head>
 
@@ -101,7 +101,7 @@
     Taskodozer © by MeHigh
   </div>
 
-<%= javascript_include_tag :defaults, "vendor/prettyPhoto.js", "vendor/autogrowtextarea.js", :cache => true %>
+<%= javascript_include_tag :defaults, "vendor/prettyPhoto.js", "vendor/autogrowtextarea.js", "vendor/jquery-ui-1.8.14.custom.min.js", :cache => false %>
 
 </body>
 </html>

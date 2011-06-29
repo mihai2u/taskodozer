@@ -1,3 +1,4 @@
+<% unless note.content.blank? and note.updates.blank? and note.attachment.blank? %>
 <div class="note" id="note-<%= note.id %>">
   <div class="meta">
     <div class="author">
@@ -43,3 +44,4 @@
     <% end %>
   </div> <!-- .note-contents -->
 </div>
+<% end %>

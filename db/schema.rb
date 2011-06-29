@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110607065946) do
+ActiveRecord::Schema.define(:version => 20110629190650) do
 
   create_table "accesses", :force => true do |t|
     t.integer "user_id"
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(:version => 20110607065946) do
     t.datetime "updated_at"
     t.integer  "archived",    :default => 0
     t.string   "status",      :default => "inquiry"
+    t.string   "repository"
   end
 
   create_table "subscriptions", :force => true do |t|
@@ -93,6 +94,7 @@ ActiveRecord::Schema.define(:version => 20110607065946) do
     t.string   "attachment_content_type"
     t.string   "attachment_file_size"
     t.string   "attachment_file_name"
+    t.datetime "planned_at"
   end
 
   create_table "topics", :force => true do |t|

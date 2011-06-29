@@ -286,6 +286,12 @@ p.seeall { text-align: right; }
 #main ul.tasks li .priority { float: left; margin: 0 6px 0 0; }
 #main ul.tasks li .priority a { float: left; width: 26px; height: 32px; background-position: 50% 50%; background-repeat: no-repeat; background-image: url(../images/ico-star-off.png); }
 #main ul.tasks li .priority a.imp { background-image: url(../images/ico-star-on.png); }
+#main ul.tasks li .date { float: left; font-size: 11px; line-height: 32px; color: #999; }
+#main ul.tasks li .today { font-weight: bold; color: #000; }
+#main ul.tasks li .tomorrow { color: #333; }
+#main ul.tasks li .unplanned { text-align: left; text-indent: -999em; width: 16px; height: 32px; }
+#main ul.tasks li .late { color: #c55; font-style: italic; font-weight: bold; }
+#main ul.tasks li:hover .unplanned { background-image: url(../images/ico-clock.png); background-position: center center; background-repeat: no-repeat; cursor: pointer; }
 #main ul.tasks li h5 { float: left;  margin: 0; padding: 7px 0 0; font-size: 12px; line-height: 18px; width: 396px; height: 18px; overflow: hidden; font-weight: normal; }
 #main ul.tasks li h5 a { display: block; color: #000; }
 #main ul.tasks li h5 a:hover { color: #29A9E0; text-decoration: none; }
@@ -306,6 +312,8 @@ border-bottom-left-radius: 5px;	-moz-border-radius-bottomleft: 5px;}
 #main ul.tasks li .options .actions li.add a { background-image: url(../images/ico-add.png); }
 #main ul.tasks li .options .actions li.delete a { background-image: url(../images/ico-delete.png); }
 #main ul.tasks li.task:hover .options { left: 131px; }
+#main ul.tasks li.task .date { position: relative; }
+#main ul.tasks li.task .date .ui-datepicker { position: absolute; top: 0; left: 0; width: 0px; height: 0px; padding: 0; margin: 0; border: none; }
 
 
 /* 2.2 Formtastic
@@ -410,6 +418,7 @@ form.formtastic fieldset > ol > li.url input[size],
 form.formtastic fieldset > ol > li.phone input[size],
 form.formtastic fieldset > ol > li.search input[size] { width:auto; max-width:71%; }
 
+form input.ui-datepicker { width: 83px; display: block; font-size: 12px; }
 
 /* TEXTAREA OVERRIDES
 --------------------------------------------------------------------------------------------------*/

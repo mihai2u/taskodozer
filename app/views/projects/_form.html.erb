@@ -4,6 +4,9 @@
     <%= f.input :slug %>
     <%= f.input :status, :as => :select, :collection => Project::STATUSES %>
     <%= f.input :company %>
+    <% if @project.new_record? %>
+      <%= f.input :repository, :as => :boolean, :label => "Create repository" %>
+    <% end %>
     <%= f.input :description %>
   <% end %>
   <%= f.buttons do %>
