@@ -15,6 +15,8 @@ class PagesController < ApplicationController
       else 
         @projects = current_user.projects.active
       end
+    else
+      # 
     end
   end
 

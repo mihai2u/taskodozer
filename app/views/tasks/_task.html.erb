@@ -1,4 +1,4 @@
-  <li id="task-<%= task.id %>" class="task <%= "task-" + task.planned_at_date if ['today','tomorrow','late'].include?(task.planned_at_date) %>">
+  <li id="task-<%= task.id %>" class="task <%= "task-" + task.planned_at_date if ['today','tomorrow','late'].include?(task.planned_at_date) %> <%= "task-secret" if task.secret? %>">
     <span class="drag"><span class="spinner"></span></span>
     <div class="progressbtn">
       <% if task.assigned_user == current_user %>

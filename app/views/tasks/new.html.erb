@@ -4,12 +4,12 @@
   <%= f.inputs do %>
   	<%= f.input :name %>
     <%= f.input :description %>
-    <%= f.input :status, :collection => Task::STATUSES, :include_blank => false %>
+    <% unless current_user.client? %><%= f.input :status, :collection => Task::STATUSES, :include_blank => false %><% end %>
     <%= f.input :priority, :collection => Task::PRIORITIES, :include_blank => false %>
-    <%= f.input :assigned_user_id, :as => :select, :collection => @project.users, :include_blank => '-- Unassigned --' %>
+    <% unless current_user.client? %><%= f.input :assigned_user_id, :as => :select, :collection => @project.users, :include_blank => '-- Unassigned --' %><% end %>
     <%= f.input :attachment, :as => :file %> 
     <%= f.input :parent_id, :as => :select, :collection => @project.tasks %>
-    <%= f.input :secret, :as => :boolean %>
+    <% unless current_user.client? %><%= f.input :secret, :as => :boolean %><% end %>
   <% end %>
   <%= f.buttons %>
 <% end %>

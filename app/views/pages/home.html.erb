@@ -1,4 +1,8 @@
-<% title "Homepage" %>  
+<% if user_signed_in?
+		title "Dashboard"
+	 else
+		title "Welcome to Taskodozer"
+	 end %>  
 
 <% content_for :sidebar do %>
 	<% if user_signed_in? %>
@@ -42,6 +46,8 @@
 					<% end %>
 				</div>
 		<% end %>
+
+		<p><%= link_to "Create a new Project", new_project_path %></p>
 	<% else %>
 		<% @projects.each do |project| 
 			project_tasks = project.tasks.pending.mine(current_user) + project.tasks.development.mine(current_user) %>
@@ -56,4 +62,16 @@
 
 <% else %>
 	<p>You need to be logged in to do anything here.</p>
+
+	<%= form_for("user", :url => user_session_path) do |f| %>
+  <p><%= f.label :username %><br />
+  <%= f.text_field :username %></p>
+
+  <p><%= f.label :password %><br />
+  <%= f.password_field :password %></p>
+
+  <p><%= f.check_box :remember_me %> <%= f.label :remember_me %></p>
+
+  <p><%= f.submit "Sign in" %></p>
+	<% end %>
 <% end %>

@@ -26,7 +26,7 @@ class TasksController < ApplicationController
     else
       @tasks_nb_mine = @project.tasks.pending.mine(current_user).all.count + @project.tasks.development.mine(current_user).all.count
       @tasks_nb_reported = @project.tasks.reported(current_user).all.count
-      @tasks_nb_all = @project.tasks.public.all.count
+      @tasks_nb_all = @project.tasks.all.count
       @tasks_nb_pending = @project.tasks.pending.all.count
       @tasks_nb_development = @project.tasks.development.all.count
       @tasks_nb_completed = @project.tasks.completed.all.count

@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
 
   before_filter :authenticate_user!
-  before_filter :check_admin, :only => [:new, :create, :edit, :update]
+  before_filter :check_admin, :only => [:edit, :update]
   before_filter :check_access, :only => [:show]
 
   def archive
