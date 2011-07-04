@@ -14,7 +14,7 @@ gem 'nifty-generators'
 gem 'formtastic', "1.2.4.beta2"
 
 # File uploads
-gem 'carrierwave', :git => 'git://github.com/jnicklas/carrierwave.git'
+gem 'carrierwave'
 # For amazon s3 support
 gem 'fog'
 # Thumbnails creation
