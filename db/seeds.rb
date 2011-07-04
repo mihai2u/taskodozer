@@ -7,5 +7,6 @@
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 # admin = User.create!(:username => 'admin', :email => 'admin@mehigh.biz', :password => '123456', :password_confirmation => '123456', :role => 'admin')
 # newcompany = Company.create!(:name => 'Owner', :country => 'Romania', :slug => 'own')
+admin = User.first
 admin.company = Company.first
 admin.save
